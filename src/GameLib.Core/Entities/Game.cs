@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectInit.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameLib.Core.Entities
 {
-    public class Game
+    public class Game : IEntity<Guid>
     {
-        [Key]
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
@@ -17,8 +18,8 @@ namespace GameLib.Core.Entities
         public string Trailer { get; set; } = string.Empty;
         public double Price { get; set; } = 0;
         public virtual DateTime ReleaseDate { get; set; } = DateTime.UtcNow; 
-
         public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+        public virtual ICollection<Achievement> Achievements { get; set; } = new List<Achievement>();
         public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
         public virtual ICollection<Developer> Developers { get; set; } = new List<Developer>(); 
         public virtual ICollection<Language> Languages { get; set; } = new List<Language>();

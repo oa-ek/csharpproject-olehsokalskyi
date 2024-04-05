@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProjectInit.Core.Context;
+﻿using GameLib.Core.Context;
+using Microsoft.EntityFrameworkCore;
+
 using ProjectInit.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace GameLib.Repository.Common
     public class Repository<TEntity, TKey> : IRepository<TEntity, TKey>
        where TEntity : class, IEntity<TKey>
     {
-        protected ProjectContext _ctx;
+        protected AppDbContext _ctx;
         //protected DbSet<TEntity> dbSet;
 
-        public Repository(ProjectContext ctx)
+        public Repository(AppDbContext ctx)
         {
             _ctx = ctx;
             //dbSet = _ctx.Set<TEntity>();

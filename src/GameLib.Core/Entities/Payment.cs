@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectInit.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameLib.Core.Entities
 {
-    public  class Payment
+    public  class Payment : IEntity<Guid>
     {
-        [Key]
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public virtual User User { get; set; }
         public virtual Game Game { get; set; }

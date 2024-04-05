@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectInit.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameLib.Core.Entities
 {
-    public class User
+    public class User : IEntity<Guid>
     {
-        [Key]
+    
         public Guid Id { get; set; } = Guid.NewGuid();
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -21,5 +22,6 @@ namespace GameLib.Core.Entities
         public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
         public virtual ICollection<Game> Games { get; set; } = new List<Game>();
         public virtual ICollection<GameTime> GameTimes { get; set; } = new List<GameTime>();
+        public virtual ICollection<AchievementUser> Achievements { get; set; } = new List<AchievementUser>();
     }
 }

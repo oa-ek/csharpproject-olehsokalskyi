@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectInit.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameLib.Core.Entities
 {
-    public class Rating
+    public class Rating : IEntity<Guid>
     {
-        [Key]
+
         public Guid Id { get; set; } = Guid.NewGuid();
         public int RatingValue { get; set; }    
         public string Comment { get; set; } = string.Empty; 

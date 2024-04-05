@@ -30,17 +30,9 @@ namespace GameLib.Core.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<GameTime> GameTimes { get; set; }
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<AchievementUser> AchievementUsers { get; set; }
 
-
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    var connectionString = "Server=.;Database=GameLibDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-
-        //    optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
-
-        //    base.OnConfiguring(optionsBuilder);
-        //}
 
     }
 }

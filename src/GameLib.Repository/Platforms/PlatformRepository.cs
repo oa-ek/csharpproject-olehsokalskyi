@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GameLib.Core.Context;
+using GameLib.Core.Entities;
+using GameLib.Repository.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace GameLib.Repository.Platforms
 {
-    internal class PlatformRepository
+    public class PlatformRepository : Repository<Platform, Guid>, IPlatformRepository
     {
+        public PlatformRepository(AppDbContext ctx) : base(ctx) { }
     }
+   
 }
