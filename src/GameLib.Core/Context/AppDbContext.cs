@@ -1,17 +1,21 @@
-﻿using GameLib.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using GameLib.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace GameLib.Core.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Game>().HasMany(g => g.Genres).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Developers).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Languages).WithMany(g => g.Games);
@@ -24,10 +28,10 @@ namespace GameLib.Core.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Discount> Discounts { get; set; }
+       // public DbSet<Discount> Discounts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Role> Roles { get; set; }
+       // public DbSet<Role> Roles { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<GameTime> GameTimes { get; set; }
         public DbSet<Achievement> Achievements { get; set; }

@@ -1,17 +1,17 @@
-﻿using GameLib.Repository.Achievements;
-using GameLib.Repository.AchievementUsers;
-using GameLib.Repository.Developers;
-using GameLib.Repository.Discounts;
-using GameLib.Repository.Games;
-using GameLib.Repository.GameTimes;
-using GameLib.Repository.Genres;
-using GameLib.Repository.Languages;
-using GameLib.Repository.Payments;
-using GameLib.Repository.Platforms;
-using GameLib.Repository.Publishers;
-using GameLib.Repository.Ratings;
-using GameLib.Repository.Roles;
-using GameLib.Repository.Users;
+﻿
+using GameLib.Repository.Repositories.Achievements;
+using GameLib.Repository.Repositories.AchievementUsers;
+using GameLib.Repository.Repositories.Developers;
+using GameLib.Repository.Repositories.Games;
+using GameLib.Repository.Repositories.GameTimes;
+using GameLib.Repository.Repositories.Genres;
+using GameLib.Repository.Repositories.Languages;
+using GameLib.Repository.Repositories.Payments;
+using GameLib.Repository.Repositories.Platforms;
+using GameLib.Repository.Repositories.Publishers;
+using GameLib.Repository.Repositories.Ratings;
+using GameLib.Repository.Repositories.UserRole;
+
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -25,12 +25,12 @@ namespace GameLib.Repository
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IDiscountRepository, DiscountRepository>();
+           // services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IPlatformRepository, PlatformRepository>();
             services.AddScoped<IPublisherRepository, PublisherRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+           // services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAchievementRepository, AchievementRepository>();
             services.AddScoped<IAchievementUserRepository, AchievementUserRepository>();
             services.AddScoped<IDeveloperRepository, DeveloperRepository>();
@@ -38,8 +38,9 @@ namespace GameLib.Repository
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            
+            //  services.AddScoped<IRoleRepository, RoleRepository>();
+    
+
 
         }
     }
