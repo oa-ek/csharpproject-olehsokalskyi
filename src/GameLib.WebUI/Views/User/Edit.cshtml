@@ -1,0 +1,60 @@
+﻿@using GameLib.Repository.Dtos
+@using Microsoft.AspNetCore.Identity
+@model UserDto
+
+@{
+    var roles = ViewBag.Roles as List<IdentityRole<Guid>>;
+}
+<h1>Change user data: @Model.Email</h1>
+<form asp-action="Edit" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="row">
+        <div class="col-md-6">
+            @Html.HiddenFor(model => model.Id)
+            <div data="mb-3">
+                @Html.LabelFor(m => m.FirstName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.LabelFor(m => m.LastName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })     
+            </div>
+            <div data="mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+ 
+            <div class="mb-3">
+                <label asp-for="Roles" class="form-label"></label>
+                <select class="form-select" size="3" id="roles" name="roles" multiple>
+                    @foreach (var r in roles)
+                    {
+                        var selected = @Model.Roles.Any(x => x.Name == r.Name) ? true : false;
+                        <!option value="@r.Name" @(selected ? "selected" : "")>@r.Name</!option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Save</button>
+        </div>
+    </div>
+
+
+</form>
+@section Scripts {
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function() {
+            $("#roles").select2();
+        })
+    </script>
+}

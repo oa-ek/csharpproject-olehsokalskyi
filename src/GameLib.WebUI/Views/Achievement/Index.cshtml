@@ -1,0 +1,86 @@
+﻿@using GameLib.Repository.Dtos
+@model List<AchievementViewModel>
+@{
+    var firstItem = Model.Count > 0 ? Model[0] : new AchievementViewModel();
+}
+
+<h1>Achievements</h1>
+@if(Model.Count == 0)
+{
+    <p>No achievements found</p>
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => firstItem.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => firstItem.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => firstItem.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => firstItem.PlayersGet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => firstItem.GameTitle)
+            </th>
+            <th>
+                Edit
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlayersGet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GameTitle)
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+</table>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Edit
+</button>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
