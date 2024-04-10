@@ -1,0 +1,49 @@
+﻿@model RatingEditModel
+<h1>Edit Rating</h1>
+@{
+    var games = ViewBag.Games as List<GameViewModel>;// ?? new List<GameViewModel>();
+    var users = ViewBag.Users as List<UserDto>; //?? new List<UserDto>();
+}
+<form asp-action="Edit" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="row">
+        <div class="col-md-6">
+            @Html.HiddenFor(model => model.Id)
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.RatingValue)
+                @Html.EditorFor(model => model.RatingValue, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "5" } })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Comment)
+                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.GameId)
+                <select class="form-select" id="game" name="Game">
+                    @foreach (var g in games)
+                    {
+                        var selected = Model.GameId == g.Id ? true : false;
+                        <!option value="@g.Id" @(selected ? "selected" : "")>@g.Title</!option>
+                    }
+                </select>
+            </div>
+            @* <div data="mb-3">
+                @Html.DisplayNameFor(model => model.UserId)
+                <select class="form-select" id="user" name="User">
+                    @foreach (var u in users)
+                    {
+                        var selected = Model.UserId == u.Id ? true : false;
+                        <!option value="@u.Id" @(selected ? "selected" : "")>@u.UserName</!option>
+                    }
+                </select>
+            </div> *@
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Зберегти</button>
+            </div>
+        </div>
+    </div>
+</form>

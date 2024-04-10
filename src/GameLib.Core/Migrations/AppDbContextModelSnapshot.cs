@@ -157,7 +157,7 @@ namespace GameLib.Core.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<Guid>("PublisherId")
+                    b.Property<Guid?>("PublisherId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ReleaseDate")
@@ -645,9 +645,7 @@ namespace GameLib.Core.Migrations
                 {
                     b.HasOne("GameLib.Core.Entities.Publisher", "Publisher")
                         .WithMany("Games")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PublisherId");
 
                     b.Navigation("Publisher");
                 });

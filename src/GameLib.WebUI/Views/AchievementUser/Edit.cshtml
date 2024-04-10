@@ -1,0 +1,34 @@
+﻿@model AchievementUserViewModel
+<h1>Edit AchievementUser</h1>
+@{
+    var achievements = ViewBag.Achievements as List<AchievementViewModel>;
+    var users = ViewBag.Users as List<UserDto>;
+}
+<form asp-action="Edit" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <div class="row">
+        <div class="col-md-6">
+            @Html.HiddenFor(model => model.Id)
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Achievement.Id)
+                @Html.DropDownListFor(model => model.Achievement.Id, new SelectList(achievements, "Title"), new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.User.Id)
+                @Html.DropDownListFor(model => model.User.Id, new SelectList(users, "UserName"), new { @class = "form-control" })
+            </div>
+
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Date)
+                @Html.TextBoxFor(model => model.Date, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Зберегти</button>
+            </div>
+        </div>
+    </div>
+</form>

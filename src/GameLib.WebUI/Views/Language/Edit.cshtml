@@ -1,0 +1,23 @@
+﻿@using GameLib.Repository.Dtos
+@model LanguageEditModel
+
+<h1>Edit Language</h1>
+
+<form asp-action="Edit" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="row">
+        @Html.HiddenFor(model => model.Id)
+        <div class="col-md-6">
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Title)
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Зберегти</button>
+            </div>
+        </div>
+    </div>
+</form>

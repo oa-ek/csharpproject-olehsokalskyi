@@ -1,8 +1,10 @@
-﻿using GameLib.Core.Context;
+﻿using AutoMapper;
+using GameLib.Core.Context;
 using GameLib.Core.Entities;
 using GameLib.Repository.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProjectInit.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +18,17 @@ namespace GameLib.Repository.Repositories.UserRole
         private readonly AppDbContext _ctx;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+        private readonly IMapper _mapper;
         public UserRepository(AppDbContext ctx,
            UserManager<User> userManager,
-           RoleManager<IdentityRole<Guid>> roleManager)
+           RoleManager<IdentityRole<Guid>> roleManager,
+           IMapper mapper
+           )
         {
             _ctx = ctx;
             _userManager = userManager;
             _roleManager = roleManager;
+            _mapper = mapper;
         }
         public async Task<User> CreateAsync(UserCreateDto userCreateDto)
         {
@@ -38,9 +44,9 @@ namespace GameLib.Repository.Repositories.UserRole
             var result = await _userManager.CreateAsync(user, userCreateDto.Password);
             return await _ctx.Users.FirstAsync(x => x.Email == userCreateDto.Email);
         }
-        public async Task<IEnumerable<IdentityRole>> GetRolesAsync()
+        public async Task<IEnumerable<IdentityRole<Guid>>> GetRolesAsync()
         {
-            return (IEnumerable<IdentityRole>)await _ctx.Roles.ToListAsync();
+            return (IEnumerable<IdentityRole<Guid>>)await _ctx.Roles.ToListAsync();
             
         }
         public async Task UpdateAsync(UserDto model, string[] roles)
@@ -73,6 +79,16 @@ namespace GameLib.Repository.Repositories.UserRole
                 await _userManager.AddToRolesAsync(user, roles.ToList());
             }
         }
+        public async Task BuyGame(UserDto model,Guid gameId)
+        {
+
+            var userEntity = await _userManager.FindByIdAsync(model.Id.ToString());
+       
+            userEntity.Games.Add(await _ctx.Games.FirstAsync(x => x.Id == gameId));
+
+            // Save the updated User entity to the database
+            await _userManager.UpdateAsync(userEntity);
+        }
         public async Task DeleteAsync(Guid id)
         {
             var user = _ctx.Users.Find(id);
@@ -95,6 +111,7 @@ namespace GameLib.Repository.Repositories.UserRole
 
         public async Task<UserDto> GetOneWithRolesAsync(Guid id)
         {
+         
             var user = await _ctx.Users.FirstAsync(x => x.Id == id);
             var userModel = new UserDto
             {
@@ -112,6 +129,7 @@ namespace GameLib.Repository.Repositories.UserRole
 
             return userModel;
         }
+
 
     }
 

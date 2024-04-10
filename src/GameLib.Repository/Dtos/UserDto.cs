@@ -15,7 +15,9 @@ namespace GameLib.Repository.Dtos
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public List<IdentityRole<Guid>>? Roles { get; set; }
+        public List<IdentityRole<Guid>>? Roles { get; set; } = new List<IdentityRole<Guid>>();
+        public List<GameLowViewModel>? Games { get; set; } = new List<GameLowViewModel>();
+
     }
     public class UserCreateDto
     {

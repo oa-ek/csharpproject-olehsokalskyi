@@ -1,38 +1,42 @@
-﻿@using GameLib.Repository.Dtos
+﻿
 @model UserCreateDto
 
-<h1>Registration</h1>
-<form asp-action="Create" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-    <div class="row">
-        <div class="col-md-6">
-            <div data="mb-3">
-                @Html.LabelFor(m => m.FirstName, new { @class = "form-label" })
-                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-            </div>
-            <div data="mb-3">
-                @Html.LabelFor(m => m.LastName, new { @class = "form-label" })
-                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })     
-            </div>
-            <div data="mb-3">
-                @Html.LabelFor(m => m.Email, new { @class = "form-label" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            </div>
-            <div data="mb-3">
-                @Html.LabelFor(m => m.UserName, new { @class = "form-label" })
-                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-            </div>
-            <div data="mb-3">
-                @Html.LabelFor(m => m.Password, new { @class = "form-label" })
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            </div>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Зберегти</button>
-        </div>
-    </div>
+<div class="float-end">
+    <a href="/user/index" class="btn btn-outline-dark">Повернутися до списку</a>
+</div>
+<h1>Новий користувач</h1>
+<hr />
+<div class="row">
 
-</form>
+    <form asp-action="Create" class="col-md-4">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserName" class="form-label"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="text" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+           <button class="btn btn-primary" type="submit">Створити</button>
+        </div>
+    </form>
+</div>

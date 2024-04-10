@@ -26,7 +26,7 @@ namespace GameLib.Core.Entities
         public virtual ICollection<Platform> Platforms { get; set; } = new List<Platform>();
         public virtual ICollection<User> Players { get; set; } = new List<User>();
 
-        public virtual Publisher Publisher { get; set; }
+        public virtual Publisher? Publisher { get; set; }
        // public virtual Discount? Discount { get; set; }
     }
 }

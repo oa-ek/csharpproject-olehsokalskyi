@@ -11,7 +11,15 @@ namespace GameLib.Repository.Dtos
         public Guid Id { get; set; }
         public AchievementViewModel Achievement { get; set; }
         public UserDto User { get; set; }
+        public DateTime Date { get; set; } 
 
     }
-    public class 
+    public class AchievementUserCreateModel
+    {
+        public Guid AchievementId { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+    }
+
+
 }

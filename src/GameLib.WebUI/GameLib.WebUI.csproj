@@ -31,4 +31,8 @@
     <ProjectReference Include="..\GameLib.Repository\GameLib.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\data\img\" />
+  </ItemGroup>
+
 </Project>

@@ -12,7 +12,7 @@ namespace GameLib.Core.Entities
     {
 
         public Guid Id { get; set; } = Guid.NewGuid();
-        public int RatingValue { get; set; }    
+        public int RatingValue { get; set; } = 0;   
         public string Comment { get; set; } = string.Empty; 
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public virtual Game Game { get; set; }

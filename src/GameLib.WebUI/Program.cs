@@ -1,7 +1,7 @@
 using GameLib.Core.Context;
 using GameLib.Core.Entities;
 using GameLib.Repository;
-using GameLib.Repository.Maper;
+using GameLib.Repository.Mapper;
 using GameLib.Repository.Repositories.UserRole;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +65,7 @@ namespace GameLib.WebUI
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Game}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

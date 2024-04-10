@@ -1,0 +1,118 @@
+﻿@using GameLib.Core.Entities
+@using Microsoft.AspNetCore.Identity
+@model GameViewModel
+@inject UserManager<User> _userManager;
+@{
+    var user = _userManager.GetUserAsync(User).Result;
+ 
+}
+<div class="row shadow">
+    <h3 class="mb-3">@Model.Title</h3>
+    <div class="col-md-8">
+        <iframe src="https://www.youtube.com/embed/@Model.Trailer" width="100%" height="400px"></iframe>
+    </div>
+    <div class="col-md-4">
+        <img src="@Model.Image" class="w-100" alt="Product photo">
+        <p>@Model.Description</p>
+        <p>Release date: @Model.ReleaseDate.ToString("dd-MMMM-yyy")</p>
+        <p>Total players: @Model.Players.Count</p>
+        <p>By @Model.Publisher.Title</p>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                @if (user != null && user.Games.Any(game => game.Id == Model.Id))
+                {
+                    <form asp-action="BuyGame" enctype="multipart/form-data">
+                        <button class="btn btn-primary w-100" asp-action="BuyGame" asp-route-id="@Model.Id">Buy</button>
+                    </form>
+                }
+                else if(user != null && user.Games.Any(game => game.Id == Model.Id) && user.GameTimes.Any(gt => gt.Game.Id == Model.Id) == false)
+                {
+                    <form asp-action="Create" asp-controller="GameTime" enctype="multipart/form-data">
+                        <input type="hidden" name="GameId" value="@Model.Id" />
+                        <input type="hidden" name="UserId" value="@user.Id" />
+                        <button class="btn btn-primary w-100" asp-action="Create" asp-controller="GameTime" asp-route-id="@Model.Id">First play</button>
+                    </form>
+                }
+                else
+                {
+                <form asp-action="Edit" asp-controller="GameTime" enctype="multipart/form-data">
+          
+                    <a class="btn btn-primary w-100" asp-action="Edit" asp-controller="GameTime" asp-route-id="@Model.Id">Play</a>
+                </form>
+                }
+              
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn-primary w-100" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <h5>Developers:</h5>
+        @foreach (var developer in Model.Developers)
+        {
+            <span>@developer.Title, </span>
+        }
+       
+    </div>
+    <div class="col-md-3">
+        <h5>Platforms:</h5>
+        @foreach (var platform in Model.Platforms)
+        {
+            <span>@platform.Title, </span>
+        }
+    </div>
+    <div class="col-md-3">
+        <h5>Genres:</h5>
+        @foreach (var genre in Model.Genres)
+        {
+            <span>@genre.Title, </span>
+        }
+    </div>
+    <div class="col-md-3">
+        <h5>Languages</h5>
+        @foreach (var language in Model.Languages)
+        {
+            <span>@language.Title, </span>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h4>Achievements</h4>
+        <a asp-action="Create" asp-controller="Achievement" asp-route-id="@Model.Id">Create</a>
+        @foreach(var achievement in Model.Achievements)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card" style="width: 18rem;">
+                    <p>@achievement.Title</p>
+                    <p>@achievement.Description</p>
+                    <p>Players get: @(Model.Players.Count > 0 ? (achievement.PlayersGet / Model.Players.Count) : 0)%</p>
+
+                    <form asp-action="Create" asp-controller="AchievementUser" enctype="multipart/form-data">
+                        <input type="hidden" name="AchievementId" value="@achievement.Id" />
+                        <button type="submit" class="btn btn-primary">Get Achievement</button>
+                    </form>
+                </div>
+            </div>
+        }
+        
+    </div>
+   
+    <div class="col-md-6">
+        <h4>Ratings</h4>
+        <a asp-action="Create" asp-controller="Rating" asp-route-id="@Model.Id">Create</a>
+        @if(Model.Ratings.Count == 0)
+        {
+            <p>No ratings yet</p>
+        }
+        else
+        {
+            @foreach (var rating in Model.Ratings)
+            {
+                <p>@rating.User.UserName: @rating.RatingValue/5</p>
+                <p>@rating.Comment</p>
+            }
+        }
+      
+    </div>
+</div>

@@ -10,5 +10,7 @@ namespace GameLib.Repository.Repositories.Ratings
 {
     public interface IRatingRepository : IRepository<Rating, Guid>
     {
+        Task<Rating> GetRatingByUserAndGame(Guid userId, Guid gameId);
+
     }
 }
