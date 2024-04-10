@@ -1,0 +1,65 @@
+﻿@model List<PaymentViewModel>
+
+<h1>Payments</h1>
+
+<div>
+    <a asp-action="Create">Create New</a>
+</div>
+
+@if (Model.Count == 0)
+{
+    <p>No genres found</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model[0].Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model[0].User.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model[0].Game.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model[0].Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model[0].Date)
+                </th>
+
+                <th>
+                    Delete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Game.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,113 @@
+﻿@model GameCreateModel
+@{
+    var developers = ViewBag.Developers as List<DeveloperViewModel>;
+    var genres = ViewBag.Genres as List<GenreViewModel>;
+    var languages = ViewBag.Languages as List<LanguageViewModel>;
+    var platforms = ViewBag.Platforms as List<PlatformViewModel>;
+    var publishers = ViewBag.Publishers as List<PublisherViewModel>;
+
+}
+<h1>Create Game</h1>
+
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div data="mb-3">
+               @Html.DisplayNameFor(model => model.Title)
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Description)
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Price)
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+            </div>
+            <div data="mb-3">
+                @Html.DisplayNameFor(model => model.Trailer)
+                @Html.TextBoxFor(model => model.Trailer, new { @class = "form-control" })
+            </div>
+            <div>
+                @Html.DisplayNameFor(model => model.Image)
+                <input asp-for="Image" accept="image/*" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Developers)
+                <select class="form-select" id="developers" name="Developers" multiple>
+                    @foreach (var developer in developers)
+                    {
+                       var selected = Model.Developers.Any(x=> x.Title == developer.Title) ? true : false;
+                       <!option value="@developer.Id" @(selected ? "selected": "")>@developer.Title</!option> 
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Languages)
+                <select class="form-select" id="languages" name="Languages" multiple>
+                    @foreach (var language in languages)
+                    {
+                        var selected = Model.Languages.Any(x => x.Title == language.Title) ? true : false;
+                        <!option value="@language.Id" @(selected ? "selected" : "")>@language.Title</!option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Genres)
+                <select class="form-select" id="genres" name="Genres" multiple>
+                    @foreach (var genre in genres)
+                    {
+                        var selected = Model.Genres.Any(x => x.Title == genre.Title) ? true : false;
+                        <!option value="@genre.Id" @(selected ? "selected" : "")>@genre.Title</!option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Platforms)
+                <select class="form-select" id="platforms" name="Platforms" multiple>
+                    @foreach (var platform in platforms)
+                    {
+                        var selected = Model.Platforms.Any(x => x.Title == platform.Title) ? true : false;
+                        <!option value="@platform.Id" @(selected ? "selected" : "")>@platform.Title</!option>
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.Publisher)
+                <select class="form-select" id="publishers" name="Publisher">
+                    @foreach (var publisher in publishers)
+                    {
+                        var selected = Model.Publisher.Title == publisher.Title ? true : false;
+                        <!option value="@publisher.Id" @(selected ? "selected" : "")>@publisher.Title</!option>
+                    }
+                </select>
+            </div>
+
+            <div class="mb-3">
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control " })
+            </div>
+
+            <div data="mb-3">
+                <button class="btn btn-primary btn-block" style="width: 100% !important" type="submit">Create</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function () {
+            $("#publishers").select2();
+            $("#platforms").select2();
+            $("#genres").select2();
+            $("#languages").select2();
+            $("#developers").select2();
+        })
+    </script>
+}
