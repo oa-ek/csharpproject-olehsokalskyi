@@ -21,6 +21,9 @@ namespace GameLib.Core.Context
             modelBuilder.Entity<Game>().HasMany(g => g.Languages).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Platforms).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Players).WithMany(g => g.Games);
+
+            modelBuilder.Seed();
+
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Game> Games { get; set; }
