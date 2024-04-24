@@ -12,7 +12,7 @@ namespace GameLib.Repository.Dtos
         public Guid Id { get; set; }
         public string Title { get; set; }
         
-        public List<GameLowViewModel>? Games { get; set; }
+        public List<GameLowViewModel> Games { get; set; }
 
     }
     public class LanguageCreateModel
