@@ -12,12 +12,12 @@ namespace GameLib.WebUI.Controllers
     public class PaymentController : Controller
     {
         private readonly IPaymentRepository _paymentRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IMapper _mapper;
         public PaymentController(
                        IPaymentRepository paymentRepository,
-                                  UserRepository userRepository,
+                                  IUserRepository userRepository,
                                              IGameRepository gameRepository,
                                                         IMapper mapper)
         {

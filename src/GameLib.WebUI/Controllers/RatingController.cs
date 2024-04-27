@@ -14,13 +14,13 @@ namespace GameLib.WebUI.Controllers
     {
         private readonly IRatingRepository _ratingRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         public RatingController(
         IRatingRepository ratingRepository,
         IGameRepository gameRepository,
-        UserRepository userRepository,
+        IUserRepository userRepository,
         UserManager<User> userManager,
         IMapper mapper)
         {

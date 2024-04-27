@@ -16,7 +16,7 @@ namespace GameLib.Core.Context
         {
             var (ADMIN_ROLE_ID, USER_ROLE_ID) = _seedRoles(builder);
 
-            var ADMIN_ID = _seedUsers(builder, ADMIN_ROLE_ID, USER_ROLE_ID);
+            _seedUsers(builder, ADMIN_ROLE_ID, USER_ROLE_ID);
 
         }
         private static (Guid, Guid) _seedRoles(ModelBuilder builder)
@@ -49,10 +49,10 @@ namespace GameLib.Core.Context
             {
 
                 Id = ADMIN_ID,
-                UserName = "admin",
+                UserName = "admin@admin.com",
                 FirstName = "Admin",
                 LastName = "Admin",
-                NormalizedUserName = "ADMIN",
+                NormalizedUserName = "admin@admin.com".ToUpper(),
                 EmailConfirmed = true,
                 Email = "admin@admin.com",
                 NormalizedEmail = "admin@admin.com".ToUpper(),
@@ -61,19 +61,23 @@ namespace GameLib.Core.Context
             var user = new User
             {
                 Id = USER_ID,
-                UserName = "user",
+                UserName = "user@gmail.com",
                 FirstName = "User",
                 LastName = "User",
-                NormalizedUserName = "USER",
+                NormalizedUserName = "user@gmail.com".ToUpper(),
                 EmailConfirmed = true,
                 Email = "user@gmail.com",
                 NormalizedEmail = "user@gmail.com".ToUpper(),
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
             PasswordHasher<User> ph = new PasswordHasher<User>();
-            admin.PasswordHash = ph.HashPassword(admin, "Pr0#et1n1t");
-            user.PasswordHash = ph.HashPassword(user, "Pr0#et1n1t");
-            builder.Entity<User>().HasData(admin, user);
+
+            admin.PasswordHash = ph.HashPassword(admin, "Admin$23");
+            user.PasswordHash = ph.HashPassword(user, "Admin$23");
+
+            builder.Entity<User>()
+                .HasData(admin, user);
+
             builder.Entity<IdentityUserRole<Guid>>().HasData(
                 new IdentityUserRole<Guid>
                 {

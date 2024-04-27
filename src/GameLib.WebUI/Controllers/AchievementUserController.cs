@@ -17,14 +17,14 @@ namespace GameLib.WebUI.Controllers
         private readonly IAchievementUserRepository _achievementUserRepository;
 
         private readonly IMapper _mapper;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IGameRepository _gameRepository;
         private readonly IAchievementRepository _achievementRepository;
         private readonly UserManager<User> _userManager;
         public AchievementUserController(
             IAchievementUserRepository achievementUserRepository,
             IMapper mapper,
-            UserRepository userRepository,
+            IUserRepository userRepository,
             IGameRepository gameRepository,
             IAchievementRepository achievementRepository,
             UserManager<User> userManager

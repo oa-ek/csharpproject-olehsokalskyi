@@ -15,13 +15,13 @@ namespace GameLib.WebUI.Controllers
         private readonly IGameTimeRepository _gameTimeRepository;
         private readonly IMapper _mapper;
         private readonly IGameRepository _gameRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         public GameTimeController(
         IGameTimeRepository gameTimeRepository,
         IMapper mapper,
         IGameRepository gameRepository,
-        UserRepository userRepository,
+        IUserRepository userRepository,
         UserManager<User> userManager
         )
         {

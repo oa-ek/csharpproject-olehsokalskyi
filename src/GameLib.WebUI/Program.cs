@@ -2,7 +2,6 @@ using GameLib.Core.Context;
 using GameLib.Core.Entities;
 using GameLib.Repository;
 using GameLib.Repository.Mapper;
-using GameLib.Repository.Repositories.UserRole;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,9 +35,7 @@ namespace GameLib.WebUI
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRepositories();
-            builder.Services.AddScoped<UserRepository>();
-            builder.Services.AddScoped<UserManager<User>>();
-            builder.Services.AddScoped<RoleManager<IdentityRole<Guid>>>();
+     
 
             builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 

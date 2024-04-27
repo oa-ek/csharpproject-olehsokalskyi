@@ -29,13 +29,13 @@ namespace GameLib.WebUI.Controllers
         private readonly IPlatformRepository _platformRepository;
         private readonly ILanguageRepository _languageRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         
         private readonly IMapper _mapper;
         public GameController(
             UserManager<User> userManager,
-            UserRepository userRepository,
+            IUserRepository userRepository,
             IGenreRepository genreRepository,
             IGameRepository gameRepository,
             IAchievementRepository achievementRepository,

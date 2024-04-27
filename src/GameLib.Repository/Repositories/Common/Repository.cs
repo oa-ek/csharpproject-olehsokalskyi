@@ -1,7 +1,6 @@
 ﻿using GameLib.Core.Context;
+using GameLib.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-
-using ProjectInit.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

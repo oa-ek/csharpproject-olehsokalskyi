@@ -1,4 +1,5 @@
 ﻿
+using GameLib.Core.Entities;
 using GameLib.Repository.Repositories.Achievements;
 using GameLib.Repository.Repositories.AchievementUsers;
 using GameLib.Repository.Repositories.Developers;
@@ -11,7 +12,7 @@ using GameLib.Repository.Repositories.Platforms;
 using GameLib.Repository.Repositories.Publishers;
 using GameLib.Repository.Repositories.Ratings;
 using GameLib.Repository.Repositories.UserRole;
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace GameLib.Repository
     {
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<IUserRepository, UserRepository>();
+           
+
            // services.AddScoped<IDiscountRepository, DiscountRepository>();
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
@@ -38,8 +42,10 @@ namespace GameLib.Repository
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+
+         ;
             //  services.AddScoped<IRoleRepository, RoleRepository>();
-    
+
 
 
         }

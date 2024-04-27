@@ -22,7 +22,7 @@
             </div>
             <div data="mb-3">
                 @Html.DisplayNameFor(model => model.Price)
-                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", type="number" })
             </div>
             <div data="mb-3">
                 @Html.DisplayNameFor(model => model.Trailer)
@@ -87,7 +87,7 @@
 
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.ReleaseDate)
-                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control " })
+                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control", type = "date" })
             </div>
 
             <div data="mb-3">
