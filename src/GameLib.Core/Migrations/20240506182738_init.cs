@@ -411,7 +411,7 @@ namespace GameLib.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
+                name: "Payment",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -422,14 +422,14 @@ namespace GameLib.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.PrimaryKey("PK_Payment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_AspNetUsers_UserId",
+                        name: "FK_Payment_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Payments_Games_GameId",
+                        name: "FK_Payment_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id");
@@ -490,8 +490,8 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("3b56e5de-d376-4ec1-b23b-e8abca591ea4"), "3b56e5de-d376-4ec1-b23b-e8abca591ea4", "Admin", "ADMIN" },
-                    { new Guid("83f930a4-b531-4833-b517-1b96f13a2fe6"), "83f930a4-b531-4833-b517-1b96f13a2fe6", "User", "USER" }
+                    { new Guid("1918c44d-4535-47fe-aaa4-42b703e63c2d"), "1918c44d-4535-47fe-aaa4-42b703e63c2d", "User", "USER" },
+                    { new Guid("306401b5-448f-4b51-aabb-14c2e445cf84"), "306401b5-448f-4b51-aabb-14c2e445cf84", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -499,8 +499,22 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("510e060f-da0d-4ec1-aeec-74bdc6a7fa3a"), 0, "1e155532-0646-4af1-8b37-140b9923f904", "user@gmail.com", true, "User", "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAIAAYagAAAAEC7MSZx3uGC66J5hT2h2ScuZuDEQEEKxAY12cjcp/+NB3oP3QrnqEDUqkQHiXk9QZA==", null, false, "79ba82ec-8a22-4ba5-9b2d-5d6c1aed452e", false, "user@gmail.com" },
-                    { new Guid("5cbd1adf-cf90-479e-8a0e-77e3e87fe786"), 0, "5e6e55ae-ed11-4949-b267-aa807e29df00", "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAIAAYagAAAAEHBkH+KDAmtSeNgCYGb5QdLJiQRtIHbuF08MMlsxS+07q2t8tG+oMTrNVghtVLXOmw==", null, false, "8ea39eb2-8441-4d91-876c-261bcf71539c", false, "admin@admin.com" }
+                    { new Guid("92927bc8-7cf6-45be-8214-57c4e1874b22"), 0, "67ce63e0-5586-4710-beaf-b6954fec1894", "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAIAAYagAAAAEHv2hLuLkiGpUYjP2qrFtNu+FOVTExIoigwNAB1+/BgtrUc2aapyeHm/NofKQSxkrg==", null, false, "4c9e32ad-443a-44d9-bb41-5fe066d48c13", false, "admin@admin.com" },
+                    { new Guid("b8ed439e-e222-4827-97e4-47eaf8fdfbcf"), 0, "be04d572-17c9-4918-bf2c-5e9a4530f776", "user@gmail.com", true, "User", "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAIAAYagAAAAEJtb1XpHHE1QDH+9QnlVwtRQXfrvr78wo5hfRY0d6Pe6dIJiXBNA2Gw6HfChvCNqqQ==", null, false, "2699f2db-f0f7-4722-9658-184639427224", false, "user@gmail.com" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Languages",
+                columns: new[] { "Id", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("06950ca3-afe6-4995-b2f8-e5a74385f71d"), "English" },
+                    { new Guid("1ecf4529-8c6a-486c-9bdb-9a75c45749f3"), "Ukraine" },
+                    { new Guid("70329e6c-cab4-4cf8-9c32-d7ae562d0b68"), "Italian" },
+                    { new Guid("a672c64e-851f-4c93-b733-dcfc157e6267"), "German" },
+                    { new Guid("add89b4c-e9b5-498f-b7c9-ea5a46424aae"), "Spanish" },
+                    { new Guid("bdbc3385-d484-48c9-8fc9-513176811089"), "French" },
+                    { new Guid("be867cab-0e8a-40cc-b6c5-07d1f9938be3"), "Polish" }
                 });
 
             migrationBuilder.InsertData(
@@ -508,8 +522,8 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("83f930a4-b531-4833-b517-1b96f13a2fe6"), new Guid("510e060f-da0d-4ec1-aeec-74bdc6a7fa3a") },
-                    { new Guid("3b56e5de-d376-4ec1-b23b-e8abca591ea4"), new Guid("5cbd1adf-cf90-479e-8a0e-77e3e87fe786") }
+                    { new Guid("306401b5-448f-4b51-aabb-14c2e445cf84"), new Guid("92927bc8-7cf6-45be-8214-57c4e1874b22") },
+                    { new Guid("1918c44d-4535-47fe-aaa4-42b703e63c2d"), new Guid("b8ed439e-e222-4827-97e4-47eaf8fdfbcf") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -607,13 +621,13 @@ namespace GameLib.Core.Migrations
                 column: "PlayersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_GameId",
-                table: "Payments",
+                name: "IX_Payment_GameId",
+                table: "Payment",
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Payments_UserId",
-                table: "Payments",
+                name: "IX_Payment_UserId",
+                table: "Payment",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -667,7 +681,7 @@ namespace GameLib.Core.Migrations
                 name: "GameUser");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Payment");
 
             migrationBuilder.DropTable(
                 name: "Ratings");

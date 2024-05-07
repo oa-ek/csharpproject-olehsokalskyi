@@ -17,6 +17,7 @@ namespace GameLib.Core.Context
             var (ADMIN_ROLE_ID, USER_ROLE_ID) = _seedRoles(builder);
 
             _seedUsers(builder, ADMIN_ROLE_ID, USER_ROLE_ID);
+            _seedLanguage(builder);
 
         }
         private static (Guid, Guid) _seedRoles(ModelBuilder builder)
@@ -91,6 +92,56 @@ namespace GameLib.Core.Context
                 }
             );
             return ADMIN_ID;
+        }
+        private static Guid _seedLanguage(ModelBuilder builder)
+        {
+            var ENGLISH_ID = Guid.NewGuid();
+            var POLISH_ID = Guid.NewGuid();
+            builder.Entity<Language>().HasData(
+                new Language
+                {
+                    Id = ENGLISH_ID,
+                    Title = "English",
+                    
+                },
+                new Language
+                {
+                    Id = POLISH_ID,
+                    Title = "Polish",
+                  
+                },
+                new Language
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "German",
+                    
+                },
+                new Language
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "French",
+                    
+                },
+                new Language
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Spanish",
+                    
+                },
+                new Language
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Italian",
+                    
+                },
+                new Language
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Ukraine",
+                    
+                }
+            );
+            return ENGLISH_ID;
         }
     }
 }

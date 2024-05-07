@@ -42,8 +42,9 @@ namespace GameLib.Repository
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
+   
 
-         ;
+            ;
             //  services.AddScoped<IRoleRepository, RoleRepository>();
 
 

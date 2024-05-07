@@ -33,6 +33,7 @@ namespace GameLib.WebUI
                 .AddEntityFrameworkStores<AppDbContext>();
 
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpClient();
 
             builder.Services.AddRepositories();
      

@@ -32,7 +32,7 @@ namespace GameLib.Core.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<Payment> Payments { get; set; }
+       // public DbSet<Payment> Payments { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<GameTime> GameTimes { get; set; }
         public DbSet<Achievement> Achievements { get; set; }

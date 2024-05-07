@@ -10,5 +10,6 @@ namespace GameLib.Repository.Repositories.Genres
 {
     public interface IGenreRepository : IRepository<Genre, Guid>
     {
+        public Task<Genre> GetGenreByName(string name);
     }
 }

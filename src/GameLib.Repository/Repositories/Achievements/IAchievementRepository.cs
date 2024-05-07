@@ -10,5 +10,6 @@ namespace GameLib.Repository.Repositories.Achievements
 {
     public interface IAchievementRepository : IRepository<Achievement, Guid>
     {
+        public Task<Achievement> GetAchievementByName(string name);
     }
 }
