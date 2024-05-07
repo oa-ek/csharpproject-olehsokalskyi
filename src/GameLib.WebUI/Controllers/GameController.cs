@@ -333,8 +333,7 @@ namespace GameLib.WebUI.Controllers
           
                 var gamesResponseModel = JsonSerializer.Deserialize<GameAPIResponse>(gamesContent);
 
-               
-
+  
                 foreach (var gameId in gamesResponseModel.Results)
                 {
                     var gameDetailsResponse = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{gameId.Id}?key=e8408e3fb5254b2fa3638b003fbce07e");

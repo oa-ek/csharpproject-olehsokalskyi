@@ -109,10 +109,30 @@
         {
             @foreach (var rating in Model.Ratings)
             {
-                <p>@rating.User.UserName: @rating.RatingValue/5</p>
+                <p>@rating.User.UserName <span class="my-rating-4" data-rating="@rating.RatingValue.ToString().Replace(',', '.')"></span></p>
+   
                 <p>@rating.Comment</p>
             }
         }
       
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/jquery.star-rating-svg.js"></script>
+    <script>
+        $(function () {
+
+            $(".my-rating-4").starRating({
+                emptyColor: 'lightgray',
+                hoverColor: 'salmon',
+                activeColor: 'cornflowerblue',
+                strokeWidth: 0,
+                useGradient: false,
+                readOnly: true,
+                starSize: 30
+            });
+
+        });
+    </script>
+}
