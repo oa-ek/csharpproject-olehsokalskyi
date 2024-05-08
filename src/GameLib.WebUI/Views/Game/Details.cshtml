@@ -19,7 +19,7 @@
         <p>By @Model.Publisher.Title</p>
         <div class="row">
             <div class="col-md-6 mb-3">
-                @if (user != null && user.Games.Any(game => game.Id == Model.Id))
+                @if (user != null && !user.Games.Any(game => game.Id == Model.Id))
                 {
                     <form asp-action="BuyGame" enctype="multipart/form-data">
                         <button class="btn btn-primary w-100" asp-action="BuyGame" asp-route-id="@Model.Id">Buy</button>
@@ -110,8 +110,12 @@
             @foreach (var rating in Model.Ratings)
             {
                 <p>@rating.User.UserName <span class="my-rating-4" data-rating="@rating.RatingValue.ToString().Replace(',', '.')"></span></p>
-   
                 <p>@rating.Comment</p>
+                <a class="btn-warning" asp-action="EditUser" asp-route-id="@rating.Id" asp-controller="Rating">Edit</a>
+
+                <form asp-controller="Rating" asp-action="DeleteUser" enctype="multipart/form-data">
+                    <button class="btn btn-danger" asp-controller="Rating" asp-action="Delete" asp-route-id="@rating.Id">Delete</button>
+                </form>
             }
         }
       

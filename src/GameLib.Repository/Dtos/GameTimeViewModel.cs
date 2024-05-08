@@ -25,9 +25,9 @@ namespace GameLib.Repository.Dtos
     }
     public class GameTimeEditModel
     {
-        public Guid Id;
+        public Guid Id { get; set; }
         public Guid GameId { get; set; }
-        public Guid UserId { get; set; }
+
         public DateTime LastPlayed { get; set; } = DateTime.UtcNow;
 
         [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]

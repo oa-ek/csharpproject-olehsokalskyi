@@ -32,6 +32,7 @@ namespace GameLib.WebUI.Areas.Identity.Pages.Account.Manage
             }
 
             Games = await _gameRepository.GetGamesByUserIdAsync(user.Id);
+           
             return Page();
         }
     }

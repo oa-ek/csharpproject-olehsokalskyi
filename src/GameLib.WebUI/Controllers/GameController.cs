@@ -318,7 +318,8 @@ namespace GameLib.WebUI.Controllers
             user.Games.Add(gameToAdd);
             await _userRepository.BuyGame(user, model.Id);
 
-            return View("Details", gameToAdd);
+            var locgame = _mapper.Map<GameViewModel>(await _gameRepository.GetAsync(model.Id));
+            return View("Details", locgame);
         }
         [HttpGet]
         public async Task<IActionResult> GetGamesFromAPI()

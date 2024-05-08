@@ -2,14 +2,14 @@
 @model GameListModel
 @{
     ViewData["Title"] = "Game list";
-    ViewData["ActivePage"] = ManageNavPages.Index;
+    ViewData["ActivePage"] = ManageNavPages.GameList;
 }
 
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
-        if (Model.Games.Count == 0)
+        @if (Model.Games.Count == 0)
         {
             <p>You haven`t games.</p>
         }
@@ -30,7 +30,7 @@
                                 <form asp-action="Delete" enctype="multipart/form-data">
                                     <button class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</button>
                                 </form>
-                            }"))
+                            }
 
                         </div>
                     </div>

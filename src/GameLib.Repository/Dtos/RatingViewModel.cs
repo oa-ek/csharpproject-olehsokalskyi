@@ -44,4 +44,19 @@ namespace GameLib.Repository.Dtos
         //[Required]
         //public Guid UserId { get; set; }
     }
+    public class RatingEditUserModel
+    {
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
+        public double RatingValue { get; set; }
+        [Required]
+        public string Comment { get; set; }
+        [Required]
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+        [Required]
+        public Guid GameId { get; set; }
+
+
+    }
 }
