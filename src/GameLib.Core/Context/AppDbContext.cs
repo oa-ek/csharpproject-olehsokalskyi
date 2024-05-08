@@ -22,6 +22,24 @@ namespace GameLib.Core.Context
             modelBuilder.Entity<Game>().HasMany(g => g.Platforms).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Players).WithMany(g => g.Games);
 
+            modelBuilder.Entity<Game>()
+               .HasMany(g => g.Achievements)
+               .WithOne(a => a.Game)
+               .HasForeignKey(a => a.GameId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Game>()
+               .HasMany(g => g.Ratings)
+               .WithOne(a => a.Game)
+               .HasForeignKey(a => a.GameId)
+               .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Rating>()
+                   .HasOne(r => r.User)
+                   .WithMany(u => u.Ratings)
+                   .HasForeignKey(r => r.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+
             modelBuilder.Seed();
 
             base.OnModelCreating(modelBuilder);

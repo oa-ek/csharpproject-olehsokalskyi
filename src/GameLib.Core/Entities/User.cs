@@ -20,5 +20,6 @@ namespace GameLib.Core.Entities
         public virtual ICollection<Game> Games { get; set; } = new List<Game>();
         public virtual ICollection<GameTime> GameTimes { get; set; } = new List<GameTime>();
         public virtual ICollection<AchievementUser> Achievements { get; set; } = new List<AchievementUser>();
+        public virtual ICollection<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

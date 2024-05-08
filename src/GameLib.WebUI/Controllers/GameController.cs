@@ -413,31 +413,7 @@ namespace GameLib.WebUI.Controllers
                         Console.WriteLine(publisher1.Id);
                         publishers.Add(publisher1);
                     }
-                    var achivementResponse = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{game.Id}/achievements?key=e8408e3fb5254b2fa3638b003fbce07e");
-                    if (!achivementResponse.IsSuccessStatusCode)
-                    {
-                        continue;
-                    }
-                    var achievementContent = await achivementResponse.Content.ReadAsStringAsync();
-                    var achievements = JsonSerializer.Deserialize<AchievementsAPIResponse>(achievementContent);
-                    var achievementsContent = new List<Achievement>();
-                    foreach (var achievement in achievements.Results)
-                    {
-                        Console.WriteLine(achievement.Name);
-                        var locAchievement = await _achievementRepository.GetAchievementByName(achievement.Name);
-                        if (locAchievement == null)
-                        {
-                            Achievement newAchievement = new Achievement
-                            {
-                                Title = achievement.Name,
-                                Description = achievement.Description
-                            };
-                            await _achievementRepository.CreateAsync(newAchievement);
-                        }
-                        Achievement achievement1 = await _achievementRepository.GetAchievementByName(achievement.Name);
-                        Console.WriteLine(achievement1.Id);
-                        achievementsContent.Add(achievement1);
-                    }
+                    
                     var locgame = await _gameRepository.ExitGameByName(game.Name);
                     if(locgame == null)
                     {
@@ -452,11 +428,36 @@ namespace GameLib.WebUI.Controllers
                             Platforms = platforms,
                             Developers = developers,
                             Publisher = publishers[0],
-                            Achievements = achievementsContent
-
-
                         };
                         await _gameRepository.CreateAsync(gameCreateModel);
+                        locgame = await _gameRepository.ExitGameByName(game.Name);
+                    }
+                    var achivementResponse = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{game.Id}/achievements?key=e8408e3fb5254b2fa3638b003fbce07e");
+                    if (!achivementResponse.IsSuccessStatusCode)
+                    {
+                        continue;
+                    }
+                    var achievementContent = await achivementResponse.Content.ReadAsStringAsync();
+                    var achievements = JsonSerializer.Deserialize<AchievementsAPIResponse>(achievementContent);
+                    var achievementsContent = new List<Achievement>();
+                    foreach (var achievement in achievements.Results)
+                    {
+                        Console.WriteLine(achievement.Name);
+                        var locAchievement = await _achievementRepository.GetAchievementByName(achievement.Name);
+                   
+                        if (locAchievement == null)
+                        {
+                            Achievement newAchievement = new Achievement
+                            {
+                                Title = achievement.Name,
+                                Description = achievement.Description,
+                                Game= locgame
+                            };
+                            await _achievementRepository.CreateAsync(newAchievement);
+                        }
+                        Achievement achievement1 = await _achievementRepository.GetAchievementByName(achievement.Name);
+                        Console.WriteLine(achievement1.Id);
+                        achievementsContent.Add(achievement1);
                     }
                 }
                 return View(gamesResponseModel);
