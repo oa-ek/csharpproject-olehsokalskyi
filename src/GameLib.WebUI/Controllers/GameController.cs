@@ -327,8 +327,7 @@ namespace GameLib.WebUI.Controllers
             var gamesResponse = await _httpClient.GetAsync(gamesApiURL);
 
             if (gamesResponse.IsSuccessStatusCode)
-            {
-               
+            { 
                 var gamesContent = await gamesResponse.Content.ReadAsStringAsync();
           
                 var gamesResponseModel = JsonSerializer.Deserialize<GameAPIResponse>(gamesContent);
