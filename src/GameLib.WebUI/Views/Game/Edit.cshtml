@@ -77,11 +77,11 @@
             </div>
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.Publisher)
-                <select class="form-select" id="publishers" name="Publisher">
+                <select  class="form-select p-0" id="publishers" name="Publisher">
                     @foreach (var publisher in publishers)
                     {
                         var selected = Model.Publisher.Title == publisher.Title ? true : false;
-                        <!option value="@publisher.Id" @(selected ? "selected" : "")>@publisher.Title</!option>
+                        <!option class="p-0" value="@publisher.Id" @(selected ? "selected" : "")>@publisher.Title</!option>
                     }
                 </select>
             </div>

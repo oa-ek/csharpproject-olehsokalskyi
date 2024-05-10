@@ -33,11 +33,12 @@ namespace GameLib.Core.Context
                .WithOne(a => a.Game)
                .HasForeignKey(a => a.GameId)
                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Rating>()
-                   .HasOne(r => r.User)
-                   .WithMany(u => u.Ratings)
-                   .HasForeignKey(r => r.UserId)
-                   .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Rating>()
+            //       .HasOne(r => r.User)
+            //       .WithMany(u => u.Ratings)
+            //       .HasForeignKey(r => r.UserId)
+            //       .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Seed();

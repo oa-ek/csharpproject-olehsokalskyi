@@ -43,7 +43,7 @@ namespace GameLib.WebUI.Controllers
             var model = new RatingCreateModel
             {
                 GameId = gamecur.Id,
-                UserId = user.Id
+                //UserId = user.Id
             };
             return View(model);
         }
@@ -134,6 +134,7 @@ namespace GameLib.WebUI.Controllers
                 var rating = _mapper.Map<Rating>(model);
                 var game = await _gameRepository.GetAsync(model.GameId);
                 rating.Game = game;
+                rating.UserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
                 await _ratingRepository.UpdateAsync(rating);
 
   

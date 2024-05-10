@@ -4,6 +4,7 @@ using GameLib.Core.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameLib.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240509182514_cascade")]
+    partial class cascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,37 +230,37 @@ namespace GameLib.Core.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f2528f03-20bc-4704-acf3-7632dd697dd0"),
+                            Id = new Guid("308a49a7-575c-4305-97b4-1567ead3cccc"),
                             Title = "English"
                         },
                         new
                         {
-                            Id = new Guid("8c0c890d-22cf-4dce-863f-08bc8e1358b8"),
+                            Id = new Guid("e6866164-62fa-4b99-b300-0bcc65595c1e"),
                             Title = "Polish"
                         },
                         new
                         {
-                            Id = new Guid("8b81aa92-d048-4eaa-bb74-01292c0ceb35"),
+                            Id = new Guid("2445c815-1d5c-4102-b090-fd284408f652"),
                             Title = "German"
                         },
                         new
                         {
-                            Id = new Guid("f5832c9c-62a2-437b-8cc3-4a5b1fc1644f"),
+                            Id = new Guid("c5873556-5a47-46a8-9571-3c0847247efb"),
                             Title = "French"
                         },
                         new
                         {
-                            Id = new Guid("95f7628e-c0ca-4aa6-95af-7c3dbcef4354"),
+                            Id = new Guid("57423b36-9c36-419e-8ba7-93b78796087c"),
                             Title = "Spanish"
                         },
                         new
                         {
-                            Id = new Guid("e8de1d49-379e-4070-b063-625754febd5b"),
+                            Id = new Guid("f94bbf11-463a-4c5e-8f34-84cf7c144312"),
                             Title = "Italian"
                         },
                         new
                         {
-                            Id = new Guid("c746e809-0c99-4699-ae2c-5647d86f2206"),
+                            Id = new Guid("5b42d313-487f-414c-bcdb-743936eff491"),
                             Title = "Ukraine"
                         });
                 });
@@ -338,7 +341,7 @@ namespace GameLib.Core.Migrations
                     b.Property<double>("RatingValue")
                         .HasColumnType("float");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -424,9 +427,9 @@ namespace GameLib.Core.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e9664af5-2201-4038-930d-a79ae1dafde1"),
+                            Id = new Guid("5ce263dc-658f-41a0-9f82-c58de42b8da4"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1cc2b1c9-4c96-4d1c-9789-faa33fc3969c",
+                            ConcurrencyStamp = "21fbf1b1-b739-4721-9dd8-b69e85ba483e",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -434,17 +437,17 @@ namespace GameLib.Core.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGoU0IEkI7dQbPJk5fy4oEz8PNENPU3O7Y8wA1fO6auZ4KixXIparawo9fUAw0PknQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPaRL0U+L/zTVzdT2sTfFQAsgPuxGVvdnEJcYPyWpEOkCqB80hc5Ziou8OQecDPHrQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ae9aa43a-0cff-4cb3-9249-73db140647ac",
+                            SecurityStamp = "4507f728-1388-4522-ade3-a20ca83558c1",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         },
                         new
                         {
-                            Id = new Guid("cb12f56c-43ad-4155-809e-423234118125"),
+                            Id = new Guid("ed86e99f-476f-4b6f-83c1-52a568d580bc"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "755644bf-f39b-47b6-9e03-eb191716763f",
+                            ConcurrencyStamp = "e981a113-d4bd-4ddd-9e76-0dbb87cb97f8",
                             Email = "user@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "User",
@@ -452,9 +455,9 @@ namespace GameLib.Core.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@GMAIL.COM",
                             NormalizedUserName = "USER@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAtGql7B0ScFuyTcXaSeULEy7VzcRwVyFq4+DB+eiM8MK4AEv88AQzBtaqls6F9dTQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGi+Wj9X3YgQOqKtnohgdwzECNpvDZhRHcbEG+FlMgiOyVFmpCJEFSyGWTjN/3znMg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f57840fa-1ef0-40b5-9c64-e552f15209cf",
+                            SecurityStamp = "78f5c099-ab15-4929-bb4f-c0daf30e3b9e",
                             TwoFactorEnabled = false,
                             UserName = "user@gmail.com"
                         });
@@ -520,15 +523,15 @@ namespace GameLib.Core.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4032bbe1-0f97-4471-b9d0-c87a5b633daf"),
-                            ConcurrencyStamp = "4032bbe1-0f97-4471-b9d0-c87a5b633daf",
+                            Id = new Guid("2e953341-fb4e-42cd-ae13-25f149452763"),
+                            ConcurrencyStamp = "2e953341-fb4e-42cd-ae13-25f149452763",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("6ce756e1-ad31-4ac5-8330-96ca9b992b14"),
-                            ConcurrencyStamp = "6ce756e1-ad31-4ac5-8330-96ca9b992b14",
+                            Id = new Guid("debc04cc-ce1e-467e-8777-df14e62d280d"),
+                            ConcurrencyStamp = "debc04cc-ce1e-467e-8777-df14e62d280d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -622,13 +625,13 @@ namespace GameLib.Core.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("e9664af5-2201-4038-930d-a79ae1dafde1"),
-                            RoleId = new Guid("4032bbe1-0f97-4471-b9d0-c87a5b633daf")
+                            UserId = new Guid("5ce263dc-658f-41a0-9f82-c58de42b8da4"),
+                            RoleId = new Guid("2e953341-fb4e-42cd-ae13-25f149452763")
                         },
                         new
                         {
-                            UserId = new Guid("cb12f56c-43ad-4155-809e-423234118125"),
-                            RoleId = new Guid("6ce756e1-ad31-4ac5-8330-96ca9b992b14")
+                            UserId = new Guid("ed86e99f-476f-4b6f-83c1-52a568d580bc"),
+                            RoleId = new Guid("debc04cc-ce1e-467e-8777-df14e62d280d")
                         });
                 });
 
@@ -777,7 +780,9 @@ namespace GameLib.Core.Migrations
 
                     b.HasOne("GameLib.Core.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Game");
 

@@ -3,6 +3,7 @@ using Azure;
 using GameLib.Core.Entities;
 using GameLib.Repository.Dtos;
 using GameLib.Repository.Repositories.Achievements;
+using GameLib.Repository.Repositories.AchievementUsers;
 using GameLib.Repository.Repositories.Developers;
 using GameLib.Repository.Repositories.Games;
 using GameLib.Repository.Repositories.Genres;
@@ -18,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Text.Json;
-using static System.Collections.Specialized.BitVector32;
+
 
 namespace GameLib.WebUI.Controllers
 {
@@ -35,6 +36,7 @@ namespace GameLib.WebUI.Controllers
         private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly HttpClient _httpClient;
+        private readonly IAchievementUserRepository _achievementUserRepository;
         
         private readonly IMapper _mapper;
         public GameController(
@@ -49,7 +51,8 @@ namespace GameLib.WebUI.Controllers
             ILanguageRepository languageRepository,
             IWebHostEnvironment webHostEnvironment,
             HttpClient httpClient,
-            IMapper mapper)
+            IMapper mapper,
+            IAchievementUserRepository achievementUserRepository)
         {
             _userManager = userManager;
             _userRepository = userRepository;
@@ -63,11 +66,36 @@ namespace GameLib.WebUI.Controllers
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
             _httpClient = httpClient;
+            _achievementUserRepository = achievementUserRepository;
         }
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var games = _mapper.Map<IEnumerable<GameViewModel>>(await _gameRepository.GetAllAsync());
+        //    return View(games);
+        //}
+
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var games = _mapper.Map<IEnumerable<GameViewModel>>(await _gameRepository.GetAllAsync());
-            return View(games);
+            var games = await _gameRepository.GetAllAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                games = games.Where(g => g.Title.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    games = games.OrderByDescending(g => g.Title);
+                    break;
+                default:
+                    games = games.OrderBy(g => g.Title);
+                    break;
+            }
+
+            ViewBag.SortOrder = sortOrder;
+
+            return View(_mapper.Map<IEnumerable<GameViewModel>>(games));
         }
         public async Task<IActionResult> Create()
         {
@@ -172,6 +200,8 @@ namespace GameLib.WebUI.Controllers
         public async Task<IActionResult> Details(Guid id)
         {
             var game = _mapper.Map<GameViewModel>(await _gameRepository.GetAsync(id));
+            var achievementsuser = await _achievementUserRepository.GetAchievementsUserByGameId(id);
+            ViewBag.Achievements = achievementsuser;
             return View(game);
         }
         public async Task<IActionResult> Edit(Guid id)
@@ -460,10 +490,10 @@ namespace GameLib.WebUI.Controllers
                         achievementsContent.Add(achievement1);
                     }
                 }
-                return View(gamesResponseModel);
+                return RedirectToAction("Index");
             }
 
-            return null;
+            return RedirectToAction("Index");
 
         }
 

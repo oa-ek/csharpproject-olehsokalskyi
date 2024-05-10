@@ -495,8 +495,8 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("793acd3a-d2d7-4057-b8ab-532f27f99afa"), "793acd3a-d2d7-4057-b8ab-532f27f99afa", "Admin", "ADMIN" },
-                    { new Guid("b988fd87-6641-4a16-826f-5f647d37271c"), "b988fd87-6641-4a16-826f-5f647d37271c", "User", "USER" }
+                    { new Guid("bd6eac7e-4b89-4d8d-a4ef-9341f7f0a978"), "bd6eac7e-4b89-4d8d-a4ef-9341f7f0a978", "Admin", "ADMIN" },
+                    { new Guid("d43a160d-df57-489c-97f2-3e39920df5c5"), "d43a160d-df57-489c-97f2-3e39920df5c5", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -504,8 +504,8 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("addb0ff4-5a24-4667-894d-425aee6333e6"), 0, "2cd91993-0384-4a10-8cda-7bab5eefc1d3", "user@gmail.com", true, "User", "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAIAAYagAAAAEIr4BlQ0+57SLYpesJQ5yzgFh1luM0kjk/hSOWTxCXD2qDUuqKnByhUFPEcuGHnYZg==", null, false, "0756cb23-7631-445c-ae54-1f18666e34f1", false, "user@gmail.com" },
-                    { new Guid("d3192fe7-6d59-4536-b7e0-54ec29969a41"), 0, "ac60220b-b8bb-4489-95f8-dc3ba8087110", "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAIAAYagAAAAEM1rRrsJRGRQrI/D70vYhBO3otlSAUj5MJeoxs6lVzNMCZRiOzPn4PvpTfchaQJQMA==", null, false, "bef02d3e-92ea-4eda-8808-e530694c4273", false, "admin@admin.com" }
+                    { new Guid("5a9a7b85-940a-4a66-abb2-8448076756a8"), 0, "e163b5ef-29fb-4bbb-baf5-990a6af7a138", "user@gmail.com", true, "User", "User", false, null, "USER@GMAIL.COM", "USER@GMAIL.COM", "AQAAAAIAAYagAAAAEFBqX5Hjvigr9yJtu8NwGGbsfR5KaJDGJ+Z3IB/bR2W/TZbTSw5MeegHxrSzA3pCzw==", null, false, "804b1c46-91d0-4e3b-ae7b-7dd68ea17c6b", false, "user@gmail.com" },
+                    { new Guid("cb8b8ce7-25c3-43bb-8c11-4540f059c4f8"), 0, "9e79662e-f7e5-420c-ab46-5551542cec08", "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAIAAYagAAAAED+TAY7si6tnExQzooRhziv2WWbvA4Cde1a+sTVYLbPWp5JP4UQ2aKDRSdb4ZIJB5w==", null, false, "220feb9d-9721-4d43-a4db-9eded551d643", false, "admin@admin.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -513,13 +513,13 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "Id", "Title" },
                 values: new object[,]
                 {
-                    { new Guid("51c0e802-fde3-430f-8105-d4b923f730ac"), "Italian" },
-                    { new Guid("9d3318ed-1b53-48b9-9bfa-5272c865a3c7"), "French" },
-                    { new Guid("b35abb7a-bf20-4ab8-83e4-95bfdac48a4f"), "Ukraine" },
-                    { new Guid("c62f4453-5ca8-476e-b545-176e34c83fc6"), "Polish" },
-                    { new Guid("f10e5bc8-9525-45e5-8be6-0f3433cdb583"), "German" },
-                    { new Guid("f35504e4-100e-4e58-bfbb-322086623940"), "English" },
-                    { new Guid("f3558d0e-938d-438b-ba58-ffccd77c3d34"), "Spanish" }
+                    { new Guid("2cacfe17-4e59-49d5-a713-5071189364e8"), "Spanish" },
+                    { new Guid("53a9ef99-4993-461b-8442-e0fa5c13edc1"), "Italian" },
+                    { new Guid("75ff1781-d93f-4726-87d9-6213ecb81c57"), "English" },
+                    { new Guid("7da0ff8b-ca2c-4b1b-9419-99892d7d63bb"), "French" },
+                    { new Guid("7e4d30ac-bec4-462a-91ad-203161a1facf"), "Polish" },
+                    { new Guid("abaa6a58-c707-44f3-8fc4-9b6d26394de6"), "German" },
+                    { new Guid("bff3b3c7-4a13-4959-87b1-eb9224e0682f"), "Ukraine" }
                 });
 
             migrationBuilder.InsertData(
@@ -527,8 +527,8 @@ namespace GameLib.Core.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("b988fd87-6641-4a16-826f-5f647d37271c"), new Guid("addb0ff4-5a24-4667-894d-425aee6333e6") },
-                    { new Guid("793acd3a-d2d7-4057-b8ab-532f27f99afa"), new Guid("d3192fe7-6d59-4536-b7e0-54ec29969a41") }
+                    { new Guid("d43a160d-df57-489c-97f2-3e39920df5c5"), new Guid("5a9a7b85-940a-4a66-abb2-8448076756a8") },
+                    { new Guid("bd6eac7e-4b89-4d8d-a4ef-9341f7f0a978"), new Guid("cb8b8ce7-25c3-43bb-8c11-4540f059c4f8") }
                 });
 
             migrationBuilder.CreateIndex(

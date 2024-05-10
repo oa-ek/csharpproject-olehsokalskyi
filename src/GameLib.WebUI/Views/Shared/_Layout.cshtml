@@ -8,75 +8,125 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GameLib.WebUI.styles.css" asp-append-version="true" />
     <link href="~/css/star-rating-svg.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <partial name="StylePartial" />
 </head>
 <body>
-    <header class="text-black bg-light rounded-2 mx-3 mt-2 sticky-top"">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 mt-2 rounded-2 d-flex justify-content-between px-4 lg:px-8">
-   
-            <div class="container-fluid">
-                <a asp-action="Index" asp-controller="Game">
-                    <img src="~/data/assets/Logo.png" alt="Logo" class="w-75 h-75" />
-                </a>
-               
-                
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Game" asp-action="Index">Games</a>
-                        </li>
+    <div class="container-scroller">
+        <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo" href="#"><img class="h-5" src="~/data/assets/Logo.png" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="#"><img src="~/data/assets/Logo-mini.png" alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <ul class="navbar-nav navbar-nav-right">
+                    <partial name="_LoginPartial" />
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container-fluid page-body-wrapper">
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link " asp-area="" asp-controller="Game" asp-action="Index">
+                            <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                            <span class="menu-title">Games</span>
+                        </a>
+                    </li>
+                      
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Achievement" asp-action="Index">Achievements</a>
+                            <a class="nav-link " asp-area="" asp-controller="Achievement" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Achievement</span>
+                            </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Developer" asp-action="Index">Developers</a>
+                            <a class="nav-link " asp-area="" asp-controller="Developer" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Developer</span>
+                            </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Rating" asp-action="Index">Ratings</a>
+                            <a class="nav-link " asp-area="" asp-controller="Rating" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Rating</span>
+                            </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                            <a class="nav-link " asp-area="" asp-controller="User" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">User</span>
+                            </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="Index">Genre</a>
+                            <a class="nav-link " asp-area="" asp-controller="Genre" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Genre</span>
+                            </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Language" asp-action="Index">
+                                    <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                    <span class="menu-title">Language</span>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Platform" asp-action="Index">Platforms</a>
+                                <a class="nav-link " asp-area="" asp-controller="AchievementUser" asp-action="Index">
+                                    <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                    <span class="menu-title">AchievementUser</span>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Platform" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Platform</span>
+                            </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Publisher" asp-action="Index">Publischers</a>
+                            <a class="nav-link " asp-area="" asp-controller="Publisher" asp-action="Index">
+                                <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                                <span class="menu-title">Publisher</span>
+                            </a>
                             </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Language" asp-action="Index">Language</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AchievementUser" asp-action="Index">AchievementUser</a>
-                            </li>
+                           
                         }
                     </ul>
-                    <partial name="_LoginPartial" />
+                   @*  <partial name="_LoginPartial" /> *@
+                </nav>
+            <div class="main-panel">
+                <div class="content-wrapper" role="main">
+                    @RenderBody()
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - GameLib.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+          @*   <footer class="footer">
+                <div class="footer-inner-wraper">
+                    &copy; 2024 - GameLib.WebUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </footer> *@
+                
         </div>
-    </footer>
+       
+        
+    </div>
+    
+
+
+   
+</div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+   @*  <script src="~/js/site.js" asp-append-version="true"></script> *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -12,5 +12,6 @@ namespace GameLib.Repository.Repositories.AchievementUsers
     public interface IAchievementUserRepository : IRepository<AchievementUser, Guid>
     {
         Task<bool> AnyAsync(Expression<Func<AchievementUser, bool>> predicate);
+        Task<List<AchievementUser>> GetAchievementsUserByGameId(Guid gameId);
     }
 }
