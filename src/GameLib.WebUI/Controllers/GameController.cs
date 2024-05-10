@@ -341,15 +341,15 @@ namespace GameLib.WebUI.Controllers
 
             if (user.Games.Any(game => game.Id == gameToAdd.Id))
             {
-           
-                return View("Index");
+
+                return RedirectToAction("Details", "Game", new { id = model.Id });
             }
 
             user.Games.Add(gameToAdd);
             await _userRepository.BuyGame(user, model.Id);
 
             var locgame = _mapper.Map<GameViewModel>(await _gameRepository.GetAsync(model.Id));
-            return View("Details", locgame);
+            return RedirectToAction("Details", "Game", new { id = locgame.Id });
         }
         [HttpGet]
         public async Task<IActionResult> GetGamesFromAPI()
