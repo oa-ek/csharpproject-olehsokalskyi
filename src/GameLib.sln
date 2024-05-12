@@ -3,31 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Core", "GameLib.Core\GameLib.Core.csproj", "{AE593320-0AA8-4A54-B17F-993578A1452A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.Repository", "GameLib.Repository\GameLib.Repository.csproj", "{9FACAF10-057E-479C-BCDB-9E62D82EF228}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLib.WebUI", "GameLib.WebUI\GameLib.WebUI.csproj", "{2F1BB069-17B3-4DF8-8592-094F952913AD}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE593320-0AA8-4A54-B17F-993578A1452A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE593320-0AA8-4A54-B17F-993578A1452A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE593320-0AA8-4A54-B17F-993578A1452A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE593320-0AA8-4A54-B17F-993578A1452A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FACAF10-057E-479C-BCDB-9E62D82EF228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FACAF10-057E-479C-BCDB-9E62D82EF228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FACAF10-057E-479C-BCDB-9E62D82EF228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FACAF10-057E-479C-BCDB-9E62D82EF228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F1BB069-17B3-4DF8-8592-094F952913AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F1BB069-17B3-4DF8-8592-094F952913AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F1BB069-17B3-4DF8-8592-094F952913AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F1BB069-17B3-4DF8-8592-094F952913AD}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
