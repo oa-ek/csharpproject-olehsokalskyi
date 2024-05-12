@@ -10,5 +10,6 @@ namespace GameLib.Repository.Repositories.Developers
 {
     public interface IDeveloperRepository : IRepository<Developer, Guid>
     {
+        public Task<Developer> GetDeveloperByName(string name);
     }
 }

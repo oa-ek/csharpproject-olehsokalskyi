@@ -18,6 +18,11 @@ namespace GameLib.Repository.Repositories.AchievementUsers
         {
             return await _ctx.AchievementUsers.AnyAsync(predicate);
         }
+
+        public Task<List<AchievementUser>> GetAchievementsUserByGameId(Guid gameId)
+        {
+           return _ctx.AchievementUsers.Where(x => x.Achievement.GameId == gameId).ToListAsync();
+        }
     }
 
 

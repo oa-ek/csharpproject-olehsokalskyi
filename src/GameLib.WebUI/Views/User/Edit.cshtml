@@ -1,20 +1,24 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
 @model UserDto
 
+@{
+    var roles = ViewBag.Roles as List<IdentityRole<Guid>>;
+}
 
 <div class="float-end">
     <a href="/user/index" class="btn btn-outline-dark">Повернутися до списку</a>
 </div>
+
 <h1>Редагування</h1>
 <hr />
-
 
 <div class="row">
     <form asp-action="Edit" class="col-md-4">
         @Html.AntiForgeryToken()
+
         <input asp-for="Id" type="hidden" />
-        <div class="mb-3">
+
+        <<div class="mb-3">
             <label asp-for="FirstName" class="form-label"></label>
             <input asp-for="FirstName" class="form-control" />
             <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -24,18 +28,14 @@
             <input asp-for="LastName" class="form-control" />
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
+     
         <div class="mb-3">
             <label asp-for="Email" class="form-label"></label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-        <div class="mb-3">
-            <label asp-for="UserName" class="form-label"></label>
-            <input asp-for="UserName" class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
 
-       @*  <div class="mb-3">
+        <div class="mb-3">
             <label asp-for="Roles" class="form-label"></label>
             <select class="form-select" size="3" id="roles" name="roles" multiple>
                 @foreach (var r in roles)
@@ -44,7 +44,8 @@
                     <!option value="@r.Name" @(selected ? "selected" : "")>@r.Name</!option>
                 }
             </select>
-        </div> *@
+        </div>
+        
 
         <div class="mb-3">
             <button class="btn btn-primary" type="submit">Зберегти</button>
@@ -58,10 +59,11 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
-    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <script src="~/lib/select2/js/select2.full.min.js"></script>    
+    
     <script>
-        $(function() {
+        $(function () {
             $("#roles").select2();
         })
     </script>

@@ -22,7 +22,7 @@
             </div>
             <div data="mb-3">
                 @Html.DisplayNameFor(model => model.Price)
-                @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", type="number" })
             </div>
             <div data="mb-3">
                 @Html.DisplayNameFor(model => model.Trailer)
@@ -30,7 +30,7 @@
             </div>
             <div>
                 @Html.DisplayNameFor(model => model.Image)
-                <input asp-for="Image" accept="image/*" />
+                <input class="form-control file-upload-info" asp-for="Image" accept="image/*" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
 
@@ -74,6 +74,7 @@
                     }
                 </select>
             </div>
+            <img src=""
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.Publisher)
                 <select class="form-select" id="publishers" name="Publisher">
@@ -87,7 +88,7 @@
 
             <div class="mb-3">
                 @Html.DisplayNameFor(model => model.ReleaseDate)
-                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control " })
+                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control", type = "date" })
             </div>
 
             <div data="mb-3">
@@ -101,9 +102,10 @@
 {
     <link rel="stylesheet" href="~/lib/select2/css/select2.min.css" />
     <script src="~/lib/select2/js/select2.full.min.js"></script>
+ 
     <script>
         $(function () {
-            $("#publishers").select2();
+            // $("#publishers").select2();
             $("#platforms").select2();
             $("#genres").select2();
             $("#languages").select2();

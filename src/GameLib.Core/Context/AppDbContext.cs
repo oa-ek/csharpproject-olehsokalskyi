@@ -15,12 +15,35 @@ namespace GameLib.Core.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+           
             modelBuilder.Entity<Game>().HasMany(g => g.Genres).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Developers).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Languages).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Platforms).WithMany(g => g.Games);
             modelBuilder.Entity<Game>().HasMany(g => g.Players).WithMany(g => g.Games);
+
+            modelBuilder.Entity<Game>()
+               .HasMany(g => g.Achievements)
+               .WithOne(a => a.Game)
+               .HasForeignKey(a => a.GameId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Game>()
+               .HasMany(g => g.Ratings)
+               .WithOne(a => a.Game)
+               .HasForeignKey(a => a.GameId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<Rating>()
+            //       .HasOne(r => r.User)
+            //       .WithMany(u => u.Ratings)
+            //       .HasForeignKey(r => r.UserId)
+            //       .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Seed();
+
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<Game> Games { get; set; }
         public DbSet<Developer> Developers { get; set; }
@@ -28,10 +51,7 @@ namespace GameLib.Core.Context
         public DbSet<Language> Languages { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-       // public DbSet<Discount> Discounts { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Payment> Payments { get; set; }
-       // public DbSet<Role> Roles { get; set; }
+       // public DbSet<Payment> Payments { get; set; }
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<GameTime> GameTimes { get; set; }
         public DbSet<Achievement> Achievements { get; set; }

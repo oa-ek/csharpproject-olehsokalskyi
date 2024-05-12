@@ -1,77 +1,80 @@
 ﻿using GameLib.Repository.Dtos;
 using GameLib.Repository.Repositories.UserRole;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameLib.WebUI.Controllers
 {
     public class UserController : Controller
     {
-        private readonly UserRepository _userRepository;
-        public UserController(UserRepository userRepository)
+        private readonly IUserRepository userRepository;
+        public UserController(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
-        }
-        public async Task<IActionResult> Index()
-        {
-            return View(await _userRepository.GetAllWithRolesAsync());
-        }
-        public async Task<IActionResult> Details(Guid id)
-        {
-            var user = await _userRepository.GetOneWithRolesAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return View(user);
-        }
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(UserCreateDto userCreateDto)
-        {
-            if (ModelState.IsValid)
-            {
-                await _userRepository.CreateAsync(userCreateDto);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(userCreateDto);
-        }
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var user = await _userRepository.GetOneWithRolesAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Roles = await _userRepository.GetRolesAsync();
-            return View(user);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, UserDto userDto, string[] roles)
-        {
-            if (id != userDto.Id)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                await _userRepository.UpdateAsync(userDto, roles);
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.Roles = await _userRepository.GetRolesAsync();
-            return View(userDto);
-        }
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _userRepository.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
+            this.userRepository = userRepository;
         }
 
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await userRepository.GetAllWithRolesAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new UserCreateDto());
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(UserCreateDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userRepository.CreateWithPasswordAsync(model);
+
+                if (user != null)
+                {
+                    return RedirectToAction(nameof(Edit), new { id = user.Id });
+                }
+            }
+
+            return View(new UserCreateDto());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            ViewBag.Roles = await userRepository.GetRolesAsync();
+            return View(await userRepository.GetOneWithRolesAsync(id));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UserDto model, string[] roles)
+        {
+            if (ModelState.IsValid)
+            {
+                await userRepository.UpdateUserAsync(model, roles);
+                return RedirectToAction("Index");
+            }
+            ViewBag.Roles = await userRepository.GetRolesAsync();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<int> CheckDelete(Guid id)
+        {
+            var check = await userRepository.CheckUser(id);
+            return check ? 1 : 0;
+        }
+
+        [HttpDelete]
+        public async Task Delete(Guid id)
+        {
+            await userRepository.DeleteUser(id);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using ProjectInit.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +10,8 @@ namespace GameLib.Core.Entities
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public TimeSpan TotalTime { get; set; } = TimeSpan.Zero;
-        public DateTime LastPlayed { get; set; } = DateTime.Now;    
+        public DateTime LastPlayed { get; set; } = DateTime.Now;
+        public Guid GameId { get; set; }
         public virtual Game Game { get; set; }
         public virtual User User { get; set; }
     }

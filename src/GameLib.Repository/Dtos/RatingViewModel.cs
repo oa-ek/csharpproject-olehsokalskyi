@@ -10,7 +10,7 @@ namespace GameLib.Repository.Dtos
     public class RatingViewModel
     {
         public Guid Id { get; set; }
-        public int RatingValue { get; set; }
+        public double RatingValue { get; set; }
         public string Comment { get; set; } 
         public DateTime Date { get; set; } 
         public GameLowViewModel Game { get; set; }
@@ -19,7 +19,7 @@ namespace GameLib.Repository.Dtos
     public class RatingCreateModel
     {
         [Required]
-        public int RatingValue { get; set; }
+        public double RatingValue { get; set; }
         [Required]
         public string Comment { get; set; }
         [Required]
@@ -33,7 +33,7 @@ namespace GameLib.Repository.Dtos
         [Required]
         public Guid Id { get; set; }
         [Required]
-        public int RatingValue { get; set; }
+        public double RatingValue { get; set; }
         [Required]
         public string Comment { get; set; }
         [Required]
@@ -43,5 +43,20 @@ namespace GameLib.Repository.Dtos
 
         //[Required]
         //public Guid UserId { get; set; }
+    }
+    public class RatingEditUserModel
+    {
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
+        public double RatingValue { get; set; }
+        [Required]
+        public string Comment { get; set; }
+        [Required]
+        public DateTime Date { get; set; } = DateTime.UtcNow;
+        [Required]
+        public Guid GameId { get; set; }
+
+
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameLib.Core.Entities;
-using GameLib.Repository.Dtos;
+
 
 namespace GameLib.Repository.Mapper
 {
@@ -51,6 +51,8 @@ namespace GameLib.Repository.Mapper
             CreateMap<Rating, RatingViewModel>().ReverseMap();
             CreateMap<Rating, RatingCreateModel>().ReverseMap();
             CreateMap<Rating, RatingEditModel>().ReverseMap();
+            CreateMap<Rating, RatingEditUserModel>().ReverseMap();
+
 
             CreateMap<Publisher, PublisherViewModel>().ReverseMap();
             CreateMap<Publisher, PublisherCreateModel>().ReverseMap();
@@ -71,27 +73,6 @@ namespace GameLib.Repository.Mapper
             CreateMap<Platform, PlatformEditModel>().ReverseMap();
             CreateMap<Publisher, PublisherEditModel>().ReverseMap();
             CreateMap<Developer, DeveloperEditModel>().ReverseMap();
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         }

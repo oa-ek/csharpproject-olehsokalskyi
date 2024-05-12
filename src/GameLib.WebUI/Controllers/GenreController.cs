@@ -22,7 +22,7 @@ namespace GameLib.WebUI.Controllers
             var genres = _mapper.Map<IEnumerable<GenreViewModel>>(await _genreRepository.GetAllAsync());
             return View(genres);
         }
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }

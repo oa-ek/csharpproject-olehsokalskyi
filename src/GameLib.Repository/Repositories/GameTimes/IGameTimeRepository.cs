@@ -10,5 +10,6 @@ namespace GameLib.Repository.Repositories.GameTimes
 {
     public interface IGameTimeRepository : IRepository<GameTime, Guid>
     {
+        Task<GameTime> GetGameTimeByUserAndGame(Guid userId, Guid gameId);
     }
 }

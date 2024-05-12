@@ -10,5 +10,7 @@ namespace GameLib.Repository.Repositories.Platforms
 {
     public interface IPlatformRepository : IRepository<Platform, Guid>
     {
+        public Task<Platform> GetPlatformByName(string name);
+
     }
 }

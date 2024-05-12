@@ -14,13 +14,13 @@ namespace GameLib.WebUI.Controllers
     {
         private readonly IRatingRepository _ratingRepository;
         private readonly IGameRepository _gameRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         public RatingController(
         IRatingRepository ratingRepository,
         IGameRepository gameRepository,
-        UserRepository userRepository,
+        IUserRepository userRepository,
         UserManager<User> userManager,
         IMapper mapper)
         {
@@ -43,7 +43,7 @@ namespace GameLib.WebUI.Controllers
             var model = new RatingCreateModel
             {
                 GameId = gamecur.Id,
-                UserId = user.Id
+                //UserId = user.Id
             };
             return View(model);
         }
@@ -82,12 +82,11 @@ namespace GameLib.WebUI.Controllers
                 RatingValue = rating.RatingValue,
                 Comment = rating.Comment,
                 GameId = rating.GameId,
-                //UserId = rating.UserId
+          
             };
             var games = _mapper.Map<IEnumerable<GameViewModel>>(await _gameRepository.GetAllAsync());
             ViewBag.Games = games;
-            //var users = await _userRepository.GetAllWithRolesAsync();
-            //ViewBag.Users = users;
+          
             return View(model);
         }
         [HttpPost]
@@ -113,13 +112,53 @@ namespace GameLib.WebUI.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> EditUser(Guid id)
+        {
+            var rating = _mapper.Map<RatingEditUserModel>(await _ratingRepository.GetAsync(id));
+            var model = new RatingEditUserModel
+            {
+                Id = rating.Id,
+                RatingValue = rating.RatingValue,
+                Comment = rating.Comment,
+                GameId = rating.GameId,
+
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUser(RatingEditUserModel model) 
+        {
+            if (ModelState.IsValid)
+            {
+                
+                var rating = _mapper.Map<Rating>(model);
+                var game = await _gameRepository.GetAsync(model.GameId);
+                rating.Game = game;
+                rating.UserId = (await _userManager.GetUserAsync(HttpContext.User)).Id;
+                await _ratingRepository.UpdateAsync(rating);
+
+  
+                return RedirectToAction("Details", "Game", new { id = model.GameId });
+            }
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var rate = await _ratingRepository.GetAsync(id);
+            var gameId = rate.Game.Id;
+            await _ratingRepository.DeleteAsync(id);
+           
+            return RedirectToAction("Details", "Game", new { id = gameId });
+        }
         [HttpPost]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _ratingRepository.DeleteAsync(id);
             return RedirectToAction("Index");
         }
-
 
 
     }

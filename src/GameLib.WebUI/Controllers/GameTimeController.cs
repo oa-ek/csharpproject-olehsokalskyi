@@ -15,13 +15,13 @@ namespace GameLib.WebUI.Controllers
         private readonly IGameTimeRepository _gameTimeRepository;
         private readonly IMapper _mapper;
         private readonly IGameRepository _gameRepository;
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<User> _userManager;
         public GameTimeController(
         IGameTimeRepository gameTimeRepository,
         IMapper mapper,
         IGameRepository gameRepository,
-        UserRepository userRepository,
+        IUserRepository userRepository,
         UserManager<User> userManager
         )
         {
@@ -67,11 +67,18 @@ namespace GameLib.WebUI.Controllers
         }
         public async Task<IActionResult> Edit(Guid id)
         {
-            var gameTime = await _gameTimeRepository.GetAsync(id);
-            var model = _mapper.Map<GameTimeEditModel>(gameTime);
-            var games = _mapper.Map<IEnumerable<GameLowViewModel>>(await _gameRepository.GetAllAsync());
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userRepository.GetOneWithRolesAsync(currentUser.Id);
 
-            ViewBag.Games = games;
+
+            GameTime gameTime = await _gameTimeRepository.GetGameTimeByUserAndGame(user.Id, id);
+
+            var model = new GameTimeEditModel
+            {
+                Id = gameTime.Id,
+                GameId = gameTime.Game.Id,
+                TotalTime = gameTime.TotalTime
+            };
 
             return View(model);
         }
@@ -81,12 +88,24 @@ namespace GameLib.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var gameTime = _mapper.Map<GameTime>(model);
-                var game = await _gameRepository.GetAsync(model.GameId);
-
-                gameTime.Game = game;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                GameTime tempGameTime = await _gameTimeRepository.GetGameTimeByUserAndGame(user.Id, model.Id);
+
+                var gameTime = await _gameTimeRepository.GetAsync(tempGameTime.Id);
+                if (gameTime == null)
+                {
+                    return NotFound();
+                }
+
+                // Add the new time to the existing total time
+                gameTime.TotalTime = gameTime.TotalTime.Add(model.TotalTime);
+
+                var game = await _gameRepository.GetAsync(model.GameId);
+                gameTime.Game = game;
+
                 gameTime.User = user;
+
                 await _gameTimeRepository.UpdateAsync(gameTime);
                 return RedirectToAction("Details", "Game", new { id = model.GameId });
             }

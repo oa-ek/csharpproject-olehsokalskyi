@@ -4,6 +4,7 @@
 @inject UserManager<User> _userManager;
 @{
     var user = _userManager.GetUserAsync(User).Result;
+    var achievementUserRepository = ViewBag.Achievements as List<AchievementUser>;
  
 }
 <div class="row shadow">
@@ -19,7 +20,7 @@
         <p>By @Model.Publisher.Title</p>
         <div class="row">
             <div class="col-md-6 mb-3">
-                @if (user != null && user.Games.Any(game => game.Id == Model.Id))
+                @if (user != null && !user.Games.Any(game => game.Id == Model.Id))
                 {
                     <form asp-action="BuyGame" enctype="multipart/form-data">
                         <button class="btn btn-primary w-100" asp-action="BuyGame" asp-route-id="@Model.Id">Buy</button>
@@ -42,13 +43,16 @@
                 }
               
             </div>
+           @if (User.IsInRole("Admin"))
+           {
             <div class="col-md-6">
                 <a class="btn btn-primary w-100" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
             </div>
+           }
         </div>
     </div>
     <div class="col-md-3">
-        <h5>Developers:</h5>
+        <h5>Developers: </h5>
         @foreach (var developer in Model.Developers)
         {
             <span>@developer.Title, </span>
@@ -87,11 +91,22 @@
                     <p>@achievement.Title</p>
                     <p>@achievement.Description</p>
                     <p>Players get: @(Model.Players.Count > 0 ? (achievement.PlayersGet / Model.Players.Count) : 0)%</p>
-
-                    <form asp-action="Create" asp-controller="AchievementUser" enctype="multipart/form-data">
-                        <input type="hidden" name="AchievementId" value="@achievement.Id" />
-                        <button type="submit" class="btn btn-primary">Get Achievement</button>
-                    </form>
+                    @if (user != null && !achievementUserRepository.Any(au => au.AchievementId == achievement.Id && au.User.Id == user.Id))
+                    {
+                        <form asp-action="Create" asp-controller="AchievementUser" enctype="multipart/form-data">
+                            <input type="hidden" name="AchievementId" value="@achievement.Id" />
+                            <button type="submit" class="btn btn-primary">Get Achievement</button>
+                        </form>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <form asp-action="Edit" asp-controller="Achievement" enctype="multipart/form-data">
+                            <button class="btn btn-warning" asp-action="Edit" asp-controller="Achievement" asp-route-id="@achievement.Id">Edit</button>
+                        </form>
+                        <form asp-action="Delete" asp-controller="Achievement" enctype="multipart/form-data">
+                            <button class="btn btn-danger" asp-action="Delete" asp-controller="Achievement" asp-route-id="@achievement.Id">Delete</button>
+                        </form>
+                    }
                 </div>
             </div>
         }
@@ -109,10 +124,39 @@
         {
             @foreach (var rating in Model.Ratings)
             {
-                <p>@rating.User.UserName: @rating.RatingValue/5</p>
+                <p>@rating.User.UserName <span class="my-rating-4" data-rating="@rating.RatingValue.ToString().Replace(',', '.')"></span></p>
                 <p>@rating.Comment</p>
+                @if (User.Identity.Name == rating.User.UserName)
+                {      
+                    <div class="d-flex mt-2 ">
+                            <a class="btn btn-warning m-2" asp-action="EditUser" asp-route-id="@rating.Id" asp-controller="Rating">Edit</a>
+                        <form asp-controller="Rating" asp-action="DeleteUser" enctype="multipart/form-data">
+                            <button class="btn btn-danger m-2" asp-controller="Rating" asp-action="Delete" asp-route-id="@rating.Id">Delete</button>
+                        </form>
+                    </div>   
+             
+                }
             }
         }
       
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/jquery.star-rating-svg.js"></script>
+    <script>
+        $(function () {
+
+            $(".my-rating-4").starRating({
+                emptyColor: 'lightgray',
+                hoverColor: 'salmon',
+                activeColor: 'cornflowerblue',
+                strokeWidth: 0,
+                useGradient: false,
+                readOnly: true,
+                starSize: 30
+            });
+
+        });
+    </script>
+}

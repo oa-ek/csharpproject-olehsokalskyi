@@ -1,16 +1,14 @@
-﻿
-@model List<UserDto>
+﻿@model IEnumerable<UserDto>
 
-<div class="mb-3">
-    <a class="btn btn-success" asp-action="Create">Create New</a>
-</div>
-<h1>Список наявних користувачів</h1>
-<hr />
+<a href="/user/create" class="btn btn-primary float-end">Створити</a>
+
+<h1>Користувачі</h1>
 
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Full Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>Roles</th>
             <th>Actions</th>
@@ -20,21 +18,21 @@
         @foreach (var u in Model)
         {
             <tr>
-                <td>@(u.LastName??"") @(u.FirstName??"")</td>
+                <td>@u.FirstName</td>
+                <td>@u.LastName</td>
                 <td>@u.Email</td>
-                
+
                 <td>@string.Join(", ", u.Roles)</td>
+                
                 <td>
                     <a href="/user/edit/@u.Id" class="btn btn-warning">Edit</a>
-                    <form asp-action="Delete" enctype="multipart/form-data">
-                        <button class="btn btn-danger" asp-action="Delete" asp-route-id="@u.Id">Delete</button>
-                    </form>
+                    <a href="#" data-id="@u.Id" data-email="@u.Email" class="btn btn-danger btn-remove-user">Remove</a>
                 </td>
             </tr>
         }
-
     </tbody>
 </table>
+
 
 <div class="modal" tabindex="-1" id="modalError">
     <div class="modal-dialog">
@@ -64,7 +62,7 @@
                 <p>Чи справді Ви бажаєте назавжди видалити користувача <strong class="userName">-</strong>?</p>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn-primary btn btn-remove-approve">Так! Видаляємо!</a> 
+                <a href="#" class="btn-primary btn btn-remove-approve">Так! Видаляємо!</a>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
             </div>
         </div>
@@ -72,55 +70,47 @@
 </div>
 
 @section Scripts {
-<script>
- 
-    $(function(){
 
-        var user_id = "";
-        var user_email = "";
-        var row = null;
+    <script>
+        $(function () {
 
-        $(".btn-remove").click(function() {
+            var user_id = "";
+            var user_email = "";
+            var row = null;
 
-            row = $(this).closest("tr");
-            user_id = $(this).attr("data-id");
-            user_email = $(this).attr("data-email");
-            $(".userName").html(user_email);
+            $(".btn-remove-user").click(function () {
 
-            $.post("/user/checkuser", {id: user_id}, function(data) {
+                row = $(this).closest("tr");
+                user_id = $(this).attr("data-id");
+                user_email = $(this).attr("data-email");
+                $(".userName").html(user_email);
 
-                if(data == 1) {
-                    $("#modalError").modal("show");
-                } 
-                else 
-                {
-                     $("#modalQuestion").modal("show");
-                }
+                $.post("/user/checkdelete", { id: user_id }, function (data) {
+
+                    if (data == 0) {
+                        $("#modalError").modal("show");
+                    }
+                    else {
+                        $("#modalQuestion").modal("show");
+                    }
+                });
             });
 
-        });
+            $(".btn-remove-approve").click(function () {
 
-        $(".btn-remove-approve").click(function() {           
+                $.ajax({
+                    url: '/user/delete',
+                    type: 'DELETE',
+                    data: { id: user_id },
+                    success: function (result) {
+                        row.fadeOut();
+                        $("#modalQuestion").modal("hide");
+                    }
+                });    
 
-            $.ajax({
-                url: '/user/delete',
-                type: 'DELETE',
-                data: {id: user_id},
-                success: function(result) {
-                    row.fadeOut();
-                    $("#modalQuestion").modal("hide");
-                }
             });
-            /*$.post("/use
-            r/delete", {id: user_id}, function(data) {
-                row.fadeOut();
-                $("#modalQuestion").modal("hide");
-            });*/
 
-        });
+        })
+    </script>
 
-
-    })
-
-</script>
 }

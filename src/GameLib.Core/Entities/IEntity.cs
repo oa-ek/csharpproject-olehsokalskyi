@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectInit.Core.Entities
+namespace GameLib.Core.Entities
 {
     public interface IEntity<T>
     {

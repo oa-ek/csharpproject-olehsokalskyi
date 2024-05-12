@@ -2,9 +2,9 @@
 using GameLib.Core.Context;
 using GameLib.Core.Entities;
 using GameLib.Repository.Dtos;
+using GameLib.Repository.Repositories.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ProjectInit.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,43 +13,67 @@ using System.Threading.Tasks;
 
 namespace GameLib.Repository.Repositories.UserRole
 {
-    public class UserRepository
+    public class UserRepository : Repository<User, Guid>, IUserRepository
     {
-        private readonly AppDbContext _ctx;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-        private readonly IMapper _mapper;
+
         public UserRepository(AppDbContext ctx,
-           UserManager<User> userManager,
-           RoleManager<IdentityRole<Guid>> roleManager,
-           IMapper mapper
-           )
+            UserManager<User> userManager,
+            RoleManager<IdentityRole<Guid>> roleManager) : base(ctx)
         {
-            _ctx = ctx;
             _userManager = userManager;
             _roleManager = roleManager;
-            _mapper = mapper;
         }
-        public async Task<User> CreateAsync(UserCreateDto userCreateDto)
+
+        public async Task<User> CreateWithPasswordAsync(UserCreateDto model)
         {
-            var user = new User
+            var newUser = new User
             {
                 Id = Guid.NewGuid(),
-                FirstName = userCreateDto.FirstName,
-                LastName = userCreateDto.LastName,
-                Email = userCreateDto.Email,
-                UserName = userCreateDto.UserName
-
+                UserName = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EmailConfirmed = false,
+                NormalizedUserName = model.Email.ToUpper(),
+                NormalizedEmail = model.Email.ToUpper(),
+                Email = model.Email
             };
-            var result = await _userManager.CreateAsync(user, userCreateDto.Password);
-            return await _ctx.Users.FirstAsync(x => x.Email == userCreateDto.Email);
+
+
+            var result = await _userManager.CreateAsync(newUser, model.Password);
+            await _userManager.AddToRoleAsync(newUser, "User");
+
+            return await _ctx.Users.FirstAsync(x => x.Email == model.Email);
+
         }
-        public async Task<IEnumerable<IdentityRole<Guid>>> GetRolesAsync()
+        public async Task<IEnumerable<UserDto>> GetAllWithRolesAsync()
         {
-            return (IEnumerable<IdentityRole<Guid>>)await _ctx.Roles.ToListAsync();
-            
+            var list = new List<UserDto>();
+
+            foreach (var user in await _ctx.Users.ToListAsync())
+            {
+                var userModel = new UserDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = new List<IdentityRole<Guid>>()
+                };
+
+                foreach (var role in await _userManager.GetRolesAsync(user))
+                {
+                    userModel.Roles.Add(await _ctx.Roles.FirstAsync(x => x.Name.ToLower() == role.ToLower()));
+                }
+
+                list.Add(userModel);
+            }
+
+            return list;
         }
-        public async Task UpdateAsync(UserDto model, string[] roles)
+
+        public async Task UpdateUserAsync(UserDto model, string[] roles)
         {
             var user = _ctx.Users.Find(model.Id);
 
@@ -57,6 +81,7 @@ namespace GameLib.Repository.Repositories.UserRole
             {
                 user.Email = model.Email;
                 user.UserName = model.Email;
+                user.NormalizedUserName = model.Email.ToUpper();
                 user.NormalizedEmail = model.Email.ToUpper();
             }
 
@@ -66,8 +91,9 @@ namespace GameLib.Repository.Repositories.UserRole
             if (user.LastName != model.LastName)
                 user.LastName = model.LastName;
 
-          
-            var admRole = await _roleManager.FindByNameAsync("Admin");
+
+
+            //var admRole = await _roleManager.FindByNameAsync("Admin");
 
             if ((await _userManager.GetRolesAsync(user)).Any())
             {
@@ -79,46 +105,18 @@ namespace GameLib.Repository.Repositories.UserRole
                 await _userManager.AddToRolesAsync(user, roles.ToList());
             }
         }
-        public async Task BuyGame(UserDto model,Guid gameId)
-        {
 
-            var userEntity = await _userManager.FindByIdAsync(model.Id.ToString());
-       
-            userEntity.Games.Add(await _ctx.Games.FirstAsync(x => x.Id == gameId));
-
-            // Save the updated User entity to the database
-            await _userManager.UpdateAsync(userEntity);
-        }
-        public async Task DeleteAsync(Guid id)
-        {
-            var user = _ctx.Users.Find(id);
-
-            if ((await _userManager.GetRolesAsync(user)).Any())
-            {
-                await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
-            }
-            await _userManager.DeleteAsync(user);
-        }
-        public async Task<IEnumerable<UserDto>> GetAllWithRolesAsync()
-        {
-            var list = new List<UserDto>();
-
-            foreach (var user in await _ctx.Users.ToListAsync())
-                list.Add(await GetOneWithRolesAsync(user.Id));
-
-            return list;
-        }
 
         public async Task<UserDto> GetOneWithRolesAsync(Guid id)
         {
-         
             var user = await _ctx.Users.FirstAsync(x => x.Id == id);
+
             var userModel = new UserDto
             {
                 Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
-                LastName = user.LastName,    
+                LastName = user.LastName,
                 Roles = new List<IdentityRole<Guid>>()
             };
 
@@ -130,7 +128,41 @@ namespace GameLib.Repository.Repositories.UserRole
             return userModel;
         }
 
+        public async Task<IEnumerable<IdentityRole<Guid>>> GetRolesAsync()
+        {
+            return await _ctx.Roles.ToListAsync();
+        }
 
+        public async Task<bool> CheckUser(Guid id)
+        {
+            var user = _ctx.Users.Find(id);
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles.All(x => x != "Admin");
+        }
+
+        public async Task DeleteUser(Guid id)
+        {
+            var user = _ctx.Users.Find(id);
+
+            if (await CheckUser(id))
+            {
+                if ((await _userManager.GetRolesAsync(user)).Any())
+                {
+                    await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+                }
+
+                await _userManager.DeleteAsync(user);
+            }
+        }
+        public async Task BuyGame(UserDto model, Guid gameId)
+        {
+
+            var userEntity = await _userManager.FindByIdAsync(model.Id.ToString());
+
+            userEntity.Games.Add(await _ctx.Games.FirstAsync(x => x.Id == gameId));
+
+            await _userManager.UpdateAsync(userEntity);
+        }
     }
 
 }

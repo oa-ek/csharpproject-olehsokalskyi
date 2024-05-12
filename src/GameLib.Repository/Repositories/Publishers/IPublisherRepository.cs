@@ -10,5 +10,6 @@ namespace GameLib.Repository.Repositories.Publishers
 {
     public interface IPublisherRepository : IRepository<Publisher, Guid>
     {
+        public Task<Publisher> GetPublisherByName(string name);
     }
 }

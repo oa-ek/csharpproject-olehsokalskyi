@@ -17,7 +17,7 @@ namespace GameLib.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -77,7 +77,6 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("GameId")
@@ -87,7 +86,6 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -109,7 +107,7 @@ namespace GameLib.Core.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -128,11 +126,9 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -147,11 +143,9 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -164,11 +158,9 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Trailer")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -193,7 +185,7 @@ namespace GameLib.Core.Migrations
                     b.Property<TimeSpan>("TotalTime")
                         .HasColumnType("time");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -212,7 +204,6 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -227,12 +218,48 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f2528f03-20bc-4704-acf3-7632dd697dd0"),
+                            Title = "English"
+                        },
+                        new
+                        {
+                            Id = new Guid("8c0c890d-22cf-4dce-863f-08bc8e1358b8"),
+                            Title = "Polish"
+                        },
+                        new
+                        {
+                            Id = new Guid("8b81aa92-d048-4eaa-bb74-01292c0ceb35"),
+                            Title = "German"
+                        },
+                        new
+                        {
+                            Id = new Guid("f5832c9c-62a2-437b-8cc3-4a5b1fc1644f"),
+                            Title = "French"
+                        },
+                        new
+                        {
+                            Id = new Guid("95f7628e-c0ca-4aa6-95af-7c3dbcef4354"),
+                            Title = "Spanish"
+                        },
+                        new
+                        {
+                            Id = new Guid("e8de1d49-379e-4070-b063-625754febd5b"),
+                            Title = "Italian"
+                        },
+                        new
+                        {
+                            Id = new Guid("c746e809-0c99-4699-ae2c-5647d86f2206"),
+                            Title = "Ukraine"
+                        });
                 });
 
             modelBuilder.Entity("GameLib.Core.Entities.Payment", b =>
@@ -247,10 +274,10 @@ namespace GameLib.Core.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("GameId")
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -259,7 +286,7 @@ namespace GameLib.Core.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("GameLib.Core.Entities.Platform", b =>
@@ -269,7 +296,6 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -284,11 +310,9 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -303,7 +327,6 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
@@ -312,10 +335,10 @@ namespace GameLib.Core.Migrations
                     b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RatingValue")
-                        .HasColumnType("int");
+                    b.Property<double>("RatingValue")
+                        .HasColumnType("float");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -348,11 +371,9 @@ namespace GameLib.Core.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -399,6 +420,44 @@ namespace GameLib.Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("e9664af5-2201-4038-930d-a79ae1dafde1"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1cc2b1c9-4c96-4d1c-9789-faa33fc3969c",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGoU0IEkI7dQbPJk5fy4oEz8PNENPU3O7Y8wA1fO6auZ4KixXIparawo9fUAw0PknQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ae9aa43a-0cff-4cb3-9249-73db140647ac",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("cb12f56c-43ad-4155-809e-423234118125"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "755644bf-f39b-47b6-9e03-eb191716763f",
+                            Email = "user@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "User",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER@GMAIL.COM",
+                            NormalizedUserName = "USER@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAtGql7B0ScFuyTcXaSeULEy7VzcRwVyFq4+DB+eiM8MK4AEv88AQzBtaqls6F9dTQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f57840fa-1ef0-40b5-9c64-e552f15209cf",
+                            TwoFactorEnabled = false,
+                            UserName = "user@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("GamePlatform", b =>
@@ -457,6 +516,22 @@ namespace GameLib.Core.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4032bbe1-0f97-4471-b9d0-c87a5b633daf"),
+                            ConcurrencyStamp = "4032bbe1-0f97-4471-b9d0-c87a5b633daf",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("6ce756e1-ad31-4ac5-8330-96ca9b992b14"),
+                            ConcurrencyStamp = "6ce756e1-ad31-4ac5-8330-96ca9b992b14",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -543,6 +618,18 @@ namespace GameLib.Core.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("e9664af5-2201-4038-930d-a79ae1dafde1"),
+                            RoleId = new Guid("4032bbe1-0f97-4471-b9d0-c87a5b633daf")
+                        },
+                        new
+                        {
+                            UserId = new Guid("cb12f56c-43ad-4155-809e-423234118125"),
+                            RoleId = new Guid("6ce756e1-ad31-4ac5-8330-96ca9b992b14")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -632,9 +719,7 @@ namespace GameLib.Core.Migrations
 
                     b.HasOne("GameLib.Core.Entities.User", "User")
                         .WithMany("Achievements")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Achievement");
 
@@ -660,9 +745,7 @@ namespace GameLib.Core.Migrations
 
                     b.HasOne("GameLib.Core.Entities.User", "User")
                         .WithMany("GameTimes")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Game");
 
@@ -673,15 +756,11 @@ namespace GameLib.Core.Migrations
                 {
                     b.HasOne("GameLib.Core.Entities.Game", "Game")
                         .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
 
                     b.HasOne("GameLib.Core.Entities.User", "User")
                         .WithMany("Payments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Game");
 
@@ -698,9 +777,7 @@ namespace GameLib.Core.Migrations
 
                     b.HasOne("GameLib.Core.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Game");
 
