@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Primitives
 {
-    public abstract class BaseEntity: IEntity<Guid>
+    public interface IEntity<T>
     {
-        
-        public Guid Id { get; set; } = new Guid();
+        [Key]
+        T Id { get; set; }
     }
 }
