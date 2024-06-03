@@ -24,6 +24,10 @@ namespace Application
             services.AddScoped<IPlatformService, PlatformService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IAchievementService, AchievementService>();
+            services.AddScoped<IAchievementUserService, AchievementUserService>();
+            services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IGameTimeService, GameTimeService>();
             return services;
         }
     }

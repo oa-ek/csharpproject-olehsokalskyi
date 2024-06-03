@@ -43,6 +43,7 @@ namespace Application.Commons
 
             CreateMap<GameTime, GameTimeModel>().ReverseMap();
             CreateMap<GameTime, GameTimeCreateModel>().ReverseMap();
+            CreateMap<GameTime, GameTimeEditModel>().ReverseMap();
 
             CreateMap<Rating, RatingModel>().ReverseMap();
             CreateMap<Rating, RatingCreateModel>().ReverseMap();

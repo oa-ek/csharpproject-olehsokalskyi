@@ -24,7 +24,7 @@ namespace Application.Service
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
         private readonly IMapper _mapper;
-        private readonly IAchievementUserRepository _achievementUserRepository;
+        private readonly IAchievementRepository _achievementUserRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserRepository _userRepository;
         private readonly IFileService _fileService;
@@ -32,7 +32,7 @@ namespace Application.Service
             IDeveloperRepository developerRepository, IPlatformRepository platformRepository,
             IGenreRepository genreRepository, IPublisherRepository publisherRepository, 
             ILanguageRepository languageRepository, IMapper mapper,
-            IAchievementUserRepository achievementRepository, IWebHostEnvironment webHostEnvironment,
+            IAchievementRepository achievementRepository, IWebHostEnvironment webHostEnvironment,
             IUserRepository userRepository, IFileService fileService)
         {
             _gameRepository = gameRepository;
@@ -148,6 +148,8 @@ namespace Application.Service
 
         public async Task<DefaultMessageResponse> UpdateAsync(GameEditModel model)
         {
+            if (!await _gameRepository.ExistItem(model.Id))
+                throw new ObjectNotFound("Game not found");
             var game = _mapper.Map<Game>(model);
             foreach (Guid id in model.DevelopersList)
             {

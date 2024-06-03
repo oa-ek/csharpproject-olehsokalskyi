@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.Commons.Models
@@ -21,12 +22,16 @@ namespace Application.Commons.Models
     {
         public Guid GameId { get; set; }
 
-        public Guid UserId { get; set; }
+        [JsonIgnore]
+        public string? UserEmail { get; set; }
     }
     public class GameTimeEditModel
     {
         public Guid Id { get; set; }
         public Guid GameId { get; set; }
+
+        [JsonIgnore]
+        public string? UserEmail { get; set; }
 
         public DateTime LastPlayed { get; set; } = DateTime.UtcNow;
 

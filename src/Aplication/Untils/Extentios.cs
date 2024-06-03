@@ -26,5 +26,13 @@ namespace Application.Untils
     {
         public ErrorMassage(string message) : base(message) { }
     }
+    public class ObjectAlreadyExistException : Exception
+    {
+        public ObjectAlreadyExistException(string message) : base(message) { }
+    }
+    public class NotPermissionException : Exception
+    {
+       public NotPermissionException(string message) : base(message) { }
+    }
 
 }

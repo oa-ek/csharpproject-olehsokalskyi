@@ -9,48 +9,52 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GameController : ControllerBase
+    public class GameTimeController : ControllerBase
     {
-        private readonly IGameService _gameService;
+        private readonly IGameTimeService _gameTimeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public GameController(IGameService gameService, IHttpContextAccessor httpContextAccessor)
+        public GameTimeController(IGameTimeService gameTimeService, IHttpContextAccessor httpContextAccessor)
         {
-            _gameService = gameService;
+            _gameTimeService = gameTimeService;
             _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet("list")]
         public async Task<IActionResult> List()
         {
-            var result = await _gameService.GetListAsync();
+            var result = await _gameTimeService.GetListAsync();
             return Ok(result);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await _gameService.GetByIdAsync(id);
+            var result = await _gameTimeService.GetByIdAsync(id);
             return Ok(result);
         }
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody]GameCreateModel gameCreateDto)
+        public async Task<IActionResult> Add(GameTimeCreateModel gameTimeCreateModel)
         {
             try
             {
-                var result = await _gameService.AddAsync(gameCreateDto);
+                var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
+                gameTimeCreateModel.UserEmail = email;
+                var result = await _gameTimeService.AddAsync(gameTimeCreateModel);
                 return Ok(result);
             }
-
             catch (ErrorMassage e)
             {
                 return BadRequest(e.Message);
             }
         }
         [HttpPut("update")]
-        public async Task<IActionResult> Update(GameEditModel gameUpdateDto)
+        [Authorize]
+        public async Task<IActionResult> Update(GameTimeEditModel gameTimeUpdateModel)
         {
             try
             {
-                var result = await _gameService.UpdateAsync(gameUpdateDto);
+                var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
+                gameTimeUpdateModel.UserEmail = email;
+                var result = await _gameTimeService.UpdateAsync(gameTimeUpdateModel);
+
                 return Ok(result);
             }
             catch (ObjectNotFound e)
@@ -67,39 +71,14 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var result = await _gameService.DeleteAsync(id);
+                var result = await _gameTimeService.DeleteAsync(id);
                 return Ok(result);
-            }
-            catch (ObjectNotFound e)
-            {
-                return BadRequest(e.Message);
             }
             catch (ErrorMassage e)
             {
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("buygame/{gameId}")]
-        [Authorize]
-        public async Task<IActionResult> BuyGame(Guid gameId)
-        {
-            try
-            {
-                var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
-                var result = await _gameService.BuyGame(new GameBuyModel { EmailUser = email, GameId = gameId });
-                return Ok(result);
-            }
-            catch (ObjectNotFound e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (ErrorMassage e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-
 
     }
 }
