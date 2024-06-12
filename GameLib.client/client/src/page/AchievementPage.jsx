@@ -13,7 +13,7 @@ import { debounce } from 'lodash';
 const AchievementPage = () => {
     const { data, fetchData, message, deleteData } = useApi('https://localhost:7226/api/achievement/list');
     useEffect(() => {
-        fetchData();
+        fetchData('achievement');
     }, []);
 
     const [show, setShow] = useState(false);
@@ -41,17 +41,18 @@ const AchievementPage = () => {
         const message = await deleteData(deleteId);
         setAlertMessage(message);
         handleClose();
-        fetchData();
+        fetchData('achievement');
 
     };
 
-    const debouncedFetchData = debounce(fetchData, 1000);
-
     useEffect(() => {
-        debouncedFetchData();
+        fetchData('achievement');
+    }, []);
+    useEffect(() => {
+        fetchData('achievement');
 
         const handleDataChanged = () => {
-            debouncedFetchData();
+            fetchData('achievement');
         };
 
         EventBus.on('dataChanged', handleDataChanged);
@@ -59,7 +60,7 @@ const AchievementPage = () => {
         return () => {
             EventBus.off('dataChanged', handleDataChanged);
         };
-    }, [debouncedFetchData]);
+    }, []);
 
     return(
         <div className="mx-5 my-1">
@@ -68,14 +69,14 @@ const AchievementPage = () => {
             <TableComponent data={data} fields={displayFields.achievement} handleShow1={handleShow}
                             handleShow2={handleDeleteShow}/>
 
-            <FormComponent url={editData ? `https://localhost:7226/api/achievement/update`
-                : `https://localhost:7226/api/achievement/add`}
+            <FormComponent url={editData ? `achievement`
+                : `achievement`}
                            type={editData ? 'put' : 'post'}
                            fields={fields.achievement} show={show}
                            handleClose={handleClose} data={editData}
             />
             <DeleteModal id={deleteId} show={deleteShow} handleClose={handleClose}
-                         url={"https://localhost:7226/api/achievement/delete"}/>
+                         url={"achievement"}/>
         </div>
     )
 };

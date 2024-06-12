@@ -3,10 +3,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import {userActions} from "../hook/userActions";
+import {useState,useEffect} from "react";
 
-// Rest of your code...
+import { useContext } from 'react';
+import { AuthContext } from './Authorize';
 
 function CollapsibleExample() {
+    const { authorized, setAuthorized } = useContext(AuthContext);
+    const {logout} = userActions()
+    // Rest of your code...
+
+    const OnLogout = ()=>{
+        logout();
+        setAuthorized(false);
+    }
     return (
         <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
             <Container>
@@ -20,7 +31,14 @@ function CollapsibleExample() {
                         <Nav.Link as={Link} to='/achievements'>Achievements</Nav.Link>
                     </Nav>
                     <Nav>
-                        <Nav.Link href="#deets">More deets</Nav.Link>
+                        {authorized ? (
+                            <>
+                                <Nav.Link as={Link} to='/profile'>Profile</Nav.Link>
+                                <button className='nav-link'onClick={OnLogout}>Logout</button>
+                            </>
+                        ) : (
+                            <Nav.Link as={Link} to='login'>Login</Nav.Link>
+                        )}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

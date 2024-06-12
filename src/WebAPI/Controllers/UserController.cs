@@ -15,11 +15,13 @@ namespace WebAPI.Controllers
     {
         private readonly IUserService _userService;
         private readonly IWebHostEnvironment _env;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserController(IUserService userService, IWebHostEnvironment env)
+        public UserController(IUserService userService, IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _env = env;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet("list")]
@@ -149,8 +151,26 @@ namespace WebAPI.Controllers
                 return NotFound(e.Message);
             }
         }
-        //TODO: Редагування для поточного користувача
         //TODO: Отримання користувача по id
+        [HttpGet("getCurrent")]
+        public async Task<IActionResult> GetCurrent()
+        {
+            var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
+            var result = await _userService.GetCurrent(email);
+            return Ok(result);
+        }
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCurent(Guid id,UserUpdateDto userUpdateDto)
+        {
+            //var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
+            //userUpdateDto.Email = email;
+            //if(userUpdateDto.Email != email)
+            //{
+            //    return BadRequest("Something went wrong");
+            //}
+            var result = await _userService.UpdateAsync(userUpdateDto);
+            return Ok(result);
+        }
 
 
        

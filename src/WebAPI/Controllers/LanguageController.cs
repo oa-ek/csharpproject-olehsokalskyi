@@ -33,7 +33,7 @@ namespace WebAPI.Controllers
          
         }
 
-        [HttpPut("update")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(LanguageEditModel languageUpdateDto)
         {
             try
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

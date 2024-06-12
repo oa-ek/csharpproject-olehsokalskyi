@@ -5,9 +5,9 @@ import Button from 'react-bootstrap/Button';
 import useApi from "../hook/getData";
 
 const DeleteModal = ({ id, show, handleClose, url  }) => {
-    const { deleteData, fetchData } = useApi(url);
+    const { deleteData } = useApi();
     const onHandleDelete = async () => {
-        const message = await deleteData(id);
+        const message = await deleteData(url,id);
         handleClose();
     }
     return (

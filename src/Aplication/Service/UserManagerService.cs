@@ -101,15 +101,22 @@ namespace Application.Service
         }
         public async Task<UserModel> EditUser(UserUpdateDto model)
         {
-            
-                var user = _mapper.Map<UserEntity>(await _userRepository.CheckUser(model.Id));
-                if (user is null)
-                    throw new ObjectNotFound("User not found");
+            var userEntity = await _userRepository.GetAsync(model.Id);
+            if (userEntity == null)
+            {
+                throw new ObjectNotFound("User not found");
+            }
 
-                await _userRepository.UpdateUserAsync(user);
-                return _mapper.Map<UserModel>(user);
-            
-      
+            // Update the user properties
+            userEntity.FirstName = model.FirstName;
+            userEntity.LastName = model.LastName;
+            userEntity.Email = model.Email;
+            userEntity.UserName = model.UserName;
+
+            await _userRepository.UpdateUserAsync(userEntity);
+            return _mapper.Map<UserModel>(userEntity);
+
+
         }
         public async Task DeleteUser(Guid id)
         {

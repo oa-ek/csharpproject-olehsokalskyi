@@ -12,22 +12,23 @@ import { debounce } from 'lodash';
 
 const GenrePage = () => {
     const { data, fetchData, message, deleteData } = useApi('https://localhost:7226/api/genre/list');
-    const debouncedFetchData = debounce(fetchData, 1000);
 
     useEffect(() => {
-        debouncedFetchData();
+        fetchData('genre');
+    }, []);
+    useEffect(() => {
+        fetchData('genre');
 
         const handleDataChanged = () => {
-            debouncedFetchData();
+            fetchData('genre');
         };
 
         EventBus.on('dataChanged', handleDataChanged);
 
-        // Не забудьте відписатися від події, коли компонент розмонтується
         return () => {
             EventBus.off('dataChanged', handleDataChanged);
         };
-    }, [debouncedFetchData]);
+    }, []);
 
 
     const [show, setShow] = useState(false);
@@ -55,7 +56,7 @@ const GenrePage = () => {
         const message = await deleteData(deleteId);
         setAlertMessage(message);
         handleClose();
-        fetchData();
+        fetchData('genre');
     };
 
     useEffect(() => {
@@ -69,13 +70,13 @@ const GenrePage = () => {
             {alertMessage && <Alert variant="success">{alertMessage}</Alert>}
             <ShowModalButton handleShow={() => handleShow(null)} type={'post'} />
             <TableComponent data={data} fields={displayFields.genre} handleShow1={handleShow} handleShow2={handleDeleteShow} />
-            <FormComponent url={editData ? `https://localhost:7226/api/genre/update`
-                            : `https://localhost:7226/api/genre/add`}
+            <FormComponent url={editData ? `genre`
+                            : `genre`}
                            type={editData ? 'put' : 'post'}
                            fields={fields.genre} show={show}
                            handleClose={handleClose} data={editData}
             />
-            <DeleteModal id={deleteId} show={deleteShow} handleClose={handleClose} url={"https://localhost:7226/api/genre/delete"} /> {/* Додано DeleteModal */}
+            <DeleteModal id={deleteId} show={deleteShow} handleClose={handleClose} url={"genre"} /> {/* Додано DeleteModal */}
         </div>
     )
 };

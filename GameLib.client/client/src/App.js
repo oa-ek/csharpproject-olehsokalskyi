@@ -6,19 +6,28 @@ import GenrePage from "./page/GenrePage";
 import PlatformPage from "./page/PlatformPage";
 import DeveloperPage from "./page/DeveloperPage";
 import AchievementPage from "./page/AchievementPage";
-
+import Authorize from "./components/Authorize";
+import { LoginPage } from "./page/LoginPage";
+import { AuthProvider } from './components/Authorize';
+import {ProfilePage} from "./page/ProfilePage";
 
 function App() {
     return (
-            <Router>
-                <CollapsibleExample/>
+        <Router>
+            <AuthProvider>
+                <CollapsibleExample />
                 <Routes>
+                    <Route path='/login' element={<LoginPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/" element={<GenrePage/>} />
                     <Route path="/platform" element={<PlatformPage/>} />
                     <Route path="/developers" element={<DeveloperPage/>} />
                     <Route path='/achievements' element={<AchievementPage/>}/>
+                    <Route path='/login' element={<LoginPage/>}/>
                 </Routes>
-            </Router>
+            </AuthProvider>
+
+        </Router>
     );
 }
 

@@ -40,9 +40,9 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPut("update")]
+        [HttpPut("update/{id}")]
         [RoleAuth(Role = "Admin")]
-        public async Task<IActionResult> Update(GenreEditModel genreUpdateDto)
+        public async Task<IActionResult> Update(Guid id, GenreEditModel genreUpdateDto)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         [RoleAuth(Role = "Admin")]
         public async Task<IActionResult> Delete(Guid id)
         {

@@ -84,7 +84,8 @@ namespace Persistance.Repositories
 
         public async Task UpdateUserAsync(UserEntity model)
         {
-            var user = _ctx.Users.Attach(model);
+
+            var user = _ctx.Users.Update(model);
             user.Property(u => u.FirstName).IsModified = true;
             user.Property(u => u.LastName).IsModified = true;
             user.Property(u => u.UserName).IsModified = true;

@@ -16,16 +16,21 @@ export const fields = {
         {name: 'id', validator: 'required: true'},
         {name: 'title', validator: 'required: true'},
         {name: 'description', validator: 'required: true'},
-        {name: 'image', validator: 'required: true'},
+        {name: 'image', validator: 'required: true', isPhoto: true},
         {name: 'price', validator: 'required: true'},
         {name: 'trailer', validator: 'required: true'},
         {name: 'releaseDate', validator: 'required: true'},
+        {name: 'genres' , validator: 'required: true', isMultySelect: true, entityurl: 'genre', visibleFields: ['id','title']},
+        {name: 'platforms' , validator: '', isMultySelect: true, entityurl: 'platform', visibleFields: ['id','title']},
+        {name: 'publisherId', validator: 'required: true', isSelect: true, entityurl: 'publisher', visibleFields: ['id','title']},
+        {name: 'developers', validator:  '', isMultySelect: true, entityurl: 'developer', visibleFields: ['id','title']},
+        {name: 'languages', validator:  '', isMultySelect: true, entityurl: 'language', visibleFields: ['id','title']}
     ],
     achievement: [
         {name: 'id', validator: 'required: true'},
         {name: 'title', validator: 'required: true'},
         {name: 'description', validator: 'required: true'},
-        {name: 'gameId', validator: 'required: true', isSelect: true, url: 'https://localhost:7226/api/game/list'},
+        {name: 'gameId', validator: 'required: true', isSelect: true, entityurl: 'game', visibleFields: ['id','title']},
 
     ],
     player: [

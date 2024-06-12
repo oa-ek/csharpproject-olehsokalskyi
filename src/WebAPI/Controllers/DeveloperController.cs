@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost("create")]
+        [HttpPost("add")]
         public async Task<IActionResult> Create(DeveloperCreateModel developerCreateDto)
         {
             try
@@ -39,8 +39,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPut("update")]
-        public async Task<IActionResult> Update(DeveloperEditModel developerUpdateDto)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(Guid id, DeveloperEditModel developerUpdateDto)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

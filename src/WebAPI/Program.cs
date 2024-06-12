@@ -37,7 +37,7 @@ namespace WebAPI
             });
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pool", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GameLib", Version = "v1" });
                 c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme
                     {
@@ -100,7 +100,8 @@ namespace WebAPI
                 RequestPath = "/images"
             });
             app.UseHttpsRedirection();
-            app.UseCors("AllowSpecificOrigin");
+            app.UseCors("AllowOrigin");
+
 
             app.UseAuthMiddleware();
             app.UseGetUserMiddleware();

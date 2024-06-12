@@ -11,9 +11,9 @@ import EventBus from "../hook/eventBus";
 import { debounce } from 'lodash';
 
 const GenrePage = () => {
-    const { data, fetchData, message, deleteData } = useApi('https://localhost:7226/api/platform/list');
+    const { data, fetchData, message, deleteData } = useApi();
     useEffect(() => {
-        fetchData();
+        fetchData('platform');
     }, []);
 
     const [show, setShow] = useState(false);
@@ -41,25 +41,25 @@ const GenrePage = () => {
         const message = await deleteData(deleteId);
         setAlertMessage(message);
         handleClose();
-        fetchData();
+        fetchData('platform');
     };
 
-    const debouncedFetchData = debounce(fetchData, 1000);
-
     useEffect(() => {
-        debouncedFetchData();
+        fetchData('platform');
+    }, []);
+    useEffect(() => {
+        fetchData('platform');
 
         const handleDataChanged = () => {
-            debouncedFetchData();
+            fetchData('platform');
         };
 
         EventBus.on('dataChanged', handleDataChanged);
 
-        // Не забудьте відписатися від події, коли компонент розмонтується
         return () => {
             EventBus.off('dataChanged', handleDataChanged);
         };
-    }, [debouncedFetchData]);
+    }, []);
 
     return(
         <div className="mx-5 my-1">
@@ -68,14 +68,14 @@ const GenrePage = () => {
             <TableComponent data={data} fields={displayFields.platform} handleShow1={handleShow}
                             handleShow2={handleDeleteShow}/>
 
-            <FormComponent url={editData ? `https://localhost:7226/api/platform/update`
-                : `https://localhost:7226/api/platform/add`}
+            <FormComponent url={editData ? 'platform'
+                : 'platform'}
                            type={editData ? 'put' : 'post'}
                            fields={fields.platform} show={show}
                            handleClose={handleClose} data={editData}
             />
             <DeleteModal id={deleteId} show={deleteShow} handleClose={handleClose}
-                         url={"https://localhost:7226/api/platform/delete"}/>
+                         url={'platform'}/>
         </div>
     )
 };

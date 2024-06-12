@@ -45,8 +45,9 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPut("update")]
-        public async Task<IActionResult> Update(GameEditModel gameUpdateDto)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(Guid id, GameEditModel gameUpdateDto)
+
         {
             try
             {

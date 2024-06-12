@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
             var result = await _platformService.GetListAsync();
             return Ok(result);
         }
-        [HttpPost("create")]
+        [HttpPost("add")]
         public async Task<IActionResult> Create(PlatformCreateModel platformCreateDto)
         {
             try
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPut("update")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(PlatformEditModel platformUpdateDto)
         {
             try
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             try

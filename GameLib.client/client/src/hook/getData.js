@@ -2,15 +2,16 @@ import { useState } from 'react';
 import api from '../hook/untils/axiousAuthConfig';
 import EventBus from './eventBus';
 
-const useApi = (url) => {
+const useApi = () => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const baseURL = process.env.REACT_APP_SERVER_URL
 
-    const fetchData = async () => {
+    const fetchData = async (entity) => {
         setLoading(true);
         try {
-            const response = await api.get(url);
+            const response = await api.get(`${baseURL}/${entity}/list`);
             setData(response.data);
             setError(null);
         } catch (err) {
@@ -19,11 +20,10 @@ const useApi = (url) => {
             setLoading(false);
         }
     };
-
-    const createData = async (newData) => {
+    const createData = async (entity,newData) => {
         setLoading(true);
         try {
-            const response = await api.post(url, newData);
+            const response = await api.post(`${baseURL}/${entity}/add`, newData);
             setError(null);
             EventBus.emit('dataChanged'); // Відправляємо подію
             return response.data.message;
@@ -34,10 +34,10 @@ const useApi = (url) => {
         }
     };
 
-    const updateData = async (id, updatedData) => {
+    const updateData = async (entity, id, updatedData) => {
         setLoading(true);
         try {
-            const response = await api.put(`${url}/${id}`, updatedData);
+            const response = await api.put(`${baseURL}/${entity}/update/${id}`, updatedData);
             setError(null);
             EventBus.emit('dataChanged'); // Відправляємо подію
             return response.data.message;
@@ -48,10 +48,10 @@ const useApi = (url) => {
         }
     };
 
-    const deleteData = async (id) => {
+    const deleteData = async (entity,id) => {
         setLoading(true);
         try {
-            const response = await api.delete(`${url}/${id}`);
+            const response = await api.delete(`${baseURL}/${entity}/delete/${id}`);
             setError(null);
             EventBus.emit('dataChanged'); // Відправляємо подію
             return response.data.message;

@@ -180,5 +180,38 @@ namespace Application.Service
                 throw new ErrorMassage(ex.Message);
             }
         }
+        public async Task<UserModel> GetCurrent(string email)
+        {
+            try
+            {
+
+                var user = await _userManagerService.GetUserByEmail(email);
+                return _mapper.Map<UserModel>(user);
+            }
+            catch (ObjectNotFound)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ErrorMassage(ex.Message);
+            }
+        }
+        public async Task<DefaultMessageResponse> UpdateCurrentcy(UserUpdateDto model)
+        {
+            try
+            {
+                await _userManagerService.EditUser(model);
+                return new DefaultMessageResponse { Message = "Currency updated successfully" };
+            }
+            catch (ObjectNotFound)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ErrorMassage(ex.Message);
+            }
+        }
     }
 }

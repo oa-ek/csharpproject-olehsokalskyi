@@ -12,22 +12,22 @@ import { debounce } from 'lodash';
 
 const GenrePage = () => {
     const { data, fetchData, message, deleteData } = useApi('https://localhost:7226/api/developer/list');
-    const debouncedFetchData = debounce(fetchData, 1000);
-
     useEffect(() => {
-        debouncedFetchData();
+        fetchData('developer');
+    }, []);
+    useEffect(() => {
+        fetchData('developer');
 
         const handleDataChanged = () => {
-            debouncedFetchData();
+            fetchData('developer');
         };
 
         EventBus.on('dataChanged', handleDataChanged);
 
-        // Не забудьте відписатися від події, коли компонент розмонтується
         return () => {
             EventBus.off('dataChanged', handleDataChanged);
         };
-    }, [debouncedFetchData]);
+    }, []);
 
     const [show, setShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);
@@ -40,7 +40,7 @@ const GenrePage = () => {
         setDeleteShow(false);
         setEditData(null);
         setAlertMessage(null);
-        fetchData()
+        fetchData('developer')
     };
     const handleShow = (data) => {
         setShow(true);
@@ -72,14 +72,14 @@ const GenrePage = () => {
             <TableComponent data={data} fields={displayFields.developer} handleShow1={handleShow}
                             handleShow2={handleDeleteShow}/>
 
-            <FormComponent url={editData ? `https://localhost:7226/api/developer/update`
-                : `https://localhost:7226/api/developer/add`}
+            <FormComponent url={editData ? `developer`
+                : `developer`}
                            type={editData ? 'put' : 'post'}
                            fields={fields.developer} show={show}
                            handleClose={handleClose} data={editData}
             />
             <DeleteModal id={deleteId} show={deleteShow} handleClose={handleClose}
-                         url={"https://localhost:7226/api/developer/delete"}/>
+                         url={"developer"}/>
         </div>
     )
 };

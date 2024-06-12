@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPut("update")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(PublisherEditModel publisherUpdateDto)
         {
             try

@@ -18,6 +18,8 @@ namespace Application.Extentios
         public Task<UserModel> GetByEmail(string email);
         public Task<DefaultMessageResponse> ChangePassword(UserChangePasswordDto userChangePasswordDto);
         public Task<DefaultMessageResponse> ChangeRole(UserRoleChangeDto userRoleChangeDto);
+        public Task<UserModel> GetCurrent(string email);
+        public Task<DefaultMessageResponse> UpdateCurrentcy(UserUpdateDto entity);
 
         //public Task<DefaultMessageResponse> AddReles(Guid userId, List<Guid> rolesId);
         //public Task<DefaultMessageResponse> RemoveRoles(Guid userId, List<Guid> rolesId);
