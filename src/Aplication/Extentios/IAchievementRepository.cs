@@ -10,6 +10,6 @@ namespace Application.Extentios
 {
     public interface IAchievementRepository : IRepository<Achievement, Guid>
     {
-
+        public Task<Achievement> GetAchievementByName(string name);
     }
 }

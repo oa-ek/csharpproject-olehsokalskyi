@@ -21,6 +21,7 @@ namespace WebAPI
 
             // Add services to the container.
             builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
+            builder.Services.AddHttpClient();
             builder.Services.AddRepositories();
             builder.Services.AddApplication();
             builder.Services.AddControllers();
@@ -87,7 +88,7 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            var dir = Path.Combine(Directory.GetCurrentDirectory(), "data/img");
+            var dir = Path.Combine(Directory.GetCurrentDirectory(), "img");
 
             if (!Directory.Exists(dir))
             {
@@ -97,7 +98,7 @@ namespace WebAPI
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(dir),
-                RequestPath = "/images"
+                RequestPath = "/img"
             });
             app.UseHttpsRedirection();
             app.UseCors("AllowOrigin");

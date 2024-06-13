@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
         [HttpPost("add")]
-        public async Task<IActionResult> Add([FromBody]GameCreateModel gameCreateDto)
+        public async Task<IActionResult> Add(GameCreateModel gameCreateDto)
         {
             try
             {
@@ -88,6 +88,36 @@ namespace WebAPI.Controllers
             {
                 var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
                 var result = await _gameService.BuyGame(new GameBuyModel { EmailUser = email, GameId = gameId });
+                return Ok(result);
+            }
+            catch (ObjectNotFound e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (ErrorMassage e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("getgamefromapi")]
+        public async Task<IActionResult> GetGameFromAPI()
+        {
+            try
+            {
+                var result = await _gameService.GetGameFromAPI();
+                return Ok(result);
+            }
+            catch (ErrorMassage e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            try
+            {
+                var result = await _gameService.GetByIdAsync(id);
                 return Ok(result);
             }
             catch (ObjectNotFound e)

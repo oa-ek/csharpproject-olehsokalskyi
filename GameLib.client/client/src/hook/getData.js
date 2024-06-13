@@ -8,6 +8,18 @@ const useApi = () => {
     const [loading, setLoading] = useState(false);
     const baseURL = process.env.REACT_APP_SERVER_URL
 
+    const getById = async (entity, id) => {
+        setLoading(true);
+        try {
+            const response = await api.get(`${baseURL}/${entity}/get/${id}`);
+            return response.data;
+            setError(null);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }
     const fetchData = async (entity) => {
         setLoading(true);
         try {
@@ -62,7 +74,7 @@ const useApi = () => {
         }
     };
 
-    return { data, error, loading, fetchData, createData, updateData, deleteData };
+    return { data, error, loading, fetchData, createData, updateData, deleteData,getById };
 };
 
 export default useApi;

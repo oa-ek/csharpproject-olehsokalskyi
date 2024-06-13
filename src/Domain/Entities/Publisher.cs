@@ -12,7 +12,7 @@ namespace Domain.Entities
     public class Publisher : BaseEntity
     {
         public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         public virtual ICollection<Game> Games { get; set; } = new List<Game>();
     }
 }

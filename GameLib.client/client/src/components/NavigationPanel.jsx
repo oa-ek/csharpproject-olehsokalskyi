@@ -29,6 +29,7 @@ function CollapsibleExample() {
                         <Nav.Link as={Link} to="/platform">Platform</Nav.Link>
                         <Nav.Link as={Link} to="/developers">Developers</Nav.Link>
                         <Nav.Link as={Link} to='/achievements'>Achievements</Nav.Link>
+                        <Nav.Link as={Link} to='/game'>Game</Nav.Link>
                     </Nav>
                     <Nav>
                         {authorized ? (

@@ -7,35 +7,68 @@ import Select from 'react-select';
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
 
-export const FormComponent = ({ url, type, fields, show, handleClose, data}) => {
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+export const FormComponent = ({ url, type, fields, show, handleClose, data }) => {
+    const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm();
     const { createData, updateData, fetchData } = useApi();
     const [selectData, setSelectData] = useState({});
+    const [selectedValues, setSelectedValues] = useState({});
 
     const OnSubmit = data => {
-        console.log(url)
-        type === 'post' ? createData(url,data)   : updateData(url,data.id, data);
-    }
+        data.price = parseFloat(data.price);
 
-    useEffect(() => {
-        if (data && fields) {
-            fields.forEach(field => {
-                setValue(field.name, data[field.name]);
-            });
-        }
-    }, [data, fields,]);
+        fields.forEach(field => {
+            if (field.isMultySelect && !data[field.name]) {
+                data[field.name] = [];
+            }
+        });
+        console.log(data);
+        type === 'post' ? createData(url, data) : updateData(url, data.id, data);
+    };
 
     useEffect(() => {
         fields.forEach(async field => {
             if (field.isSelect || field.isMultySelect) {
-                console.log(field.entityurl)
-                const response = await axios.get('https://localhost:7226/api/game/list')
-                const data = response.data
-                console.log(data)
-                setSelectData(prevData => ({...prevData, [field.name]: data}));
+                const response = await axios.get(`https://localhost:7226/api/${field.entityurl}/list`);
+                const data = response.data;
+                setSelectData(prevData => ({ ...prevData, [field.name]: data }));
             }
         });
     }, [fields]);
+
+    useEffect(() => {
+        if (data && fields) {
+            fields.forEach(field => {
+                if (field.isSelect || field.isMultySelect) {
+                    if (data[field.name]) {
+                        const selectedValue = field.isMultySelect ? data[field.name].map(item => ({
+                            value: item.id,
+                            label: field.visibleFields.map(f => item[f]).join(' ')
+                        })) : {
+                            value: data[field.name].id,
+                            label: field.visibleFields.map(f => data[field.name][f]).join(' ')
+                        };
+                        setSelectedValues(prevValues => ({ ...prevValues, [field.name]: selectedValue }));
+                        setValue(field.name, selectedValue);
+                    }
+                } else if (data[field.name]) {
+                    setValue(field.name, data[field.name]);
+                }
+            });
+        }
+    }, [data, fields, setValue]);
+
+    const handleImageUpload = event => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setValue('imagePath', reader.result);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <>
@@ -57,18 +90,21 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data}) => 
                                                     label: field.visibleFields.map(f => item[f]).join(' ')
                                                 }))}
                                                 isMulti={field.isMultySelect}
-                                                {...register(field.name, {required: field.validator})}
+                                                value={selectedValues[field.name]}
                                                 onChange={option => {
                                                     if (field.isMultySelect) {
                                                         setValue(field.name, option.map(o => o.value));
+                                                        setSelectedValues(prevValues => ({ ...prevValues, [field.name]: option }));
                                                     } else {
                                                         setValue(field.name, option.value);
+                                                        setSelectedValues(prevValues => ({ ...prevValues, [field.name]: option }));
                                                     }
                                                 }}
-
                                             />
+                                        ) : field.isPhoto ? (
+                                            <input type="file" accept="image/*" onChange={handleImageUpload} />
                                         ) : (
-                                            <Form.Control type="text" {...register(field.name, {required: field.validator})} />
+                                            <Form.Control type={field.isNumber ? 'number' : 'text'} {...register(field.name, { required: field.validator })} />
                                         )}
                                     </React.Fragment>
                                 ) : null}

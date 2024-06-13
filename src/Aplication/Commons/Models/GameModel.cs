@@ -34,7 +34,6 @@ namespace Application.Commons.Models
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public IFormFile? Image { get; set; }
         public string? ImagePath { get; set; }
 
         public double Price { get; set; }
@@ -62,7 +61,7 @@ namespace Application.Commons.Models
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public IFormFile? Image { get; set; }
+        //public IFormFile? Image { get; set; }
         public string? ImagePath { get; set; }
 
         public double Price { get; set; }
@@ -74,7 +73,7 @@ namespace Application.Commons.Models
 
         public List<Guid> DevelopersList { get; set; } = new List<Guid>();
         public List<Guid> LanguagesList { get; set; } = new List<Guid>();
-        public DateTime ReleaseDateList { get; set; }
+        public DateTime ReleaseDate { get; set; }
 
     }
     public class GameBuyModel

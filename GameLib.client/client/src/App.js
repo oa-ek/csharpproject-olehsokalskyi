@@ -10,6 +10,8 @@ import Authorize from "./components/Authorize";
 import { LoginPage } from "./page/LoginPage";
 import { AuthProvider } from './components/Authorize';
 import {ProfilePage} from "./page/ProfilePage";
+import {GamePage} from "./page/GamePage";
+import {GameDetail} from "./page/GameDetail";
 
 function App() {
     return (
@@ -24,6 +26,8 @@ function App() {
                     <Route path="/developers" element={<DeveloperPage/>} />
                     <Route path='/achievements' element={<AchievementPage/>}/>
                     <Route path='/login' element={<LoginPage/>}/>
+                    <Route path='/game' element={<GamePage/>}/>
+                    <Route path='game/:id' element={<GameDetail/>}/>
                 </Routes>
             </AuthProvider>
 

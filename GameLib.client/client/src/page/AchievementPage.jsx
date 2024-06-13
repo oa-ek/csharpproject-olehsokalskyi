@@ -11,10 +11,7 @@ import EventBus from "../hook/eventBus";
 import { debounce } from 'lodash';
 
 const AchievementPage = () => {
-    const { data, fetchData, message, deleteData } = useApi('https://localhost:7226/api/achievement/list');
-    useEffect(() => {
-        fetchData('achievement');
-    }, []);
+    const { data, fetchData, message, deleteData } = useApi();
 
     const [show, setShow] = useState(false);
     const [deleteShow, setDeleteShow] = useState(false);

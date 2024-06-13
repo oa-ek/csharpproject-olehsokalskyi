@@ -14,6 +14,7 @@ namespace Application.Commons.Models
         public string Description { get; set; }
         public string GameTitle { get; set; }
         public int PlayersGet { get; set; }
+        public Guid GameId { get; set; }
     }
     public class AchievementCreateModel
     {

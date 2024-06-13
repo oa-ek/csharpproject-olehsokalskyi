@@ -9,8 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Net.Http;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Application.Service
@@ -24,16 +26,18 @@ namespace Application.Service
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
         private readonly IMapper _mapper;
-        private readonly IAchievementRepository _achievementUserRepository;
+        private readonly IAchievementRepository _achievementRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IUserRepository _userRepository;
         private readonly IFileService _fileService;
+        private readonly HttpClient _httpClient;
+        private readonly IAchievementRepository achievementRepository;
         public GameService(IGameRepository gameRepository, 
             IDeveloperRepository developerRepository, IPlatformRepository platformRepository,
             IGenreRepository genreRepository, IPublisherRepository publisherRepository, 
             ILanguageRepository languageRepository, IMapper mapper,
             IAchievementRepository achievementRepository, IWebHostEnvironment webHostEnvironment,
-            IUserRepository userRepository, IFileService fileService)
+            IUserRepository userRepository, IFileService fileService, HttpClient httpClient)
         {
             _gameRepository = gameRepository;
             _developerRepository = developerRepository;
@@ -42,10 +46,12 @@ namespace Application.Service
             _publisherRepository = publisherRepository;
             _languageRepository = languageRepository;
             _mapper = mapper;
-            _achievementUserRepository = achievementRepository;
+            _achievementRepository = achievementRepository;
             _webHostEnvironment = webHostEnvironment;
             _userRepository = userRepository;
+
             _fileService = fileService;
+            _httpClient = httpClient;
         }
 
         public async Task<DefaultMessageResponse> AddAsync(GameCreateModel model)
@@ -79,21 +85,18 @@ namespace Application.Service
             if(publisher is not null)
                 game.PublisherId = publisher.Id;
           
-            string url = model.Trailer;
-            Uri uri = new Uri(url);
-            string result = uri.PathAndQuery.Substring(1);
-            game.Trailer = result;
-            if (model.Image != null || model.ImagePath != null)
+      
+            if ( model.ImagePath != null) //model.Image != null ||
             {
                 var fileResult = "Only";
                 if (model.ImagePath != null)
                 {
                     fileResult = _fileService.SaveImage(model.ImagePath, "game");
                 }
-                else if (model.Image != null)
-                {
-                    fileResult = _fileService.SaveIFormFile(model.Image, "actors");
-                }
+                //else if (model.Image != null)
+                //{
+                //    fileResult = _fileService.SaveIFormFile(model.Image, "actors");
+                //}
                 if (fileResult.Contains("Only") || fileResult.Contains("Error"))
                 {
                     throw new ObjectNotFound("Error");
@@ -150,7 +153,16 @@ namespace Application.Service
         {
             if (!await _gameRepository.ExistItem(model.Id))
                 throw new ObjectNotFound("Game not found");
-            var game = _mapper.Map<Game>(model);
+            var game = await _gameRepository.GetAsync(model.Id);
+            game.Title = model.Title;
+            game.Description = model.Description;
+            game.Price = model.Price;
+            game.Trailer = model.Trailer;
+            game.ReleaseDate = model.ReleaseDate;
+            game.Developers.Clear();
+            game.Genres.Clear();
+            game.Platforms.Clear();
+            game.Languages.Clear();
             foreach (Guid id in model.DevelopersList)
             {
                 var dev = await _developerRepository.GetAsync(id);
@@ -179,21 +191,15 @@ namespace Application.Service
             if (publisher is not null)
                 game.PublisherId = publisher.Id;
 
-            string url = model.Trailer;
-            Uri uri = new Uri(url);
-            string result = uri.PathAndQuery.Substring(1);
-            game.Trailer = result;
-            if (model.Image != null || model.ImagePath != null)
+            
+            if ( model.ImagePath != null)
             {
                 var fileResult = "Only";
                 if (model.ImagePath != null)
                 {
                     fileResult = _fileService.SaveImage(model.ImagePath, "game");
                 }
-                else if (model.Image != null)
-                {
-                    fileResult = _fileService.SaveIFormFile(model.Image, "game");
-                }
+    
                 if (fileResult.Contains("Only") || fileResult.Contains("Error"))
                 {
                     throw new ObjectNotFound("Error");
@@ -206,6 +212,150 @@ namespace Application.Service
             await _gameRepository.UpdateAsync(game);
             return new DefaultMessageResponse { Message = "Game added successfully" };
         }
+        public async Task<DefaultMessageResponse> GetGameFromAPI()
+        {
+            var gamesApiURL = "https://api.rawg.io/api/games?key=e8408e3fb5254b2fa3638b003fbce07e";
+            var gamesResponse = await _httpClient.GetAsync(gamesApiURL);
+
+            if (gamesResponse.IsSuccessStatusCode)
+            {
+                var gamesContent = await gamesResponse.Content.ReadAsStringAsync();
+
+                var gamesResponseModel = JsonSerializer.Deserialize<GameAPIResponse>(gamesContent);
+
+
+                foreach (var gameId in gamesResponseModel.Results)
+                {
+                    var gameDetailsResponse = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{gameId.Id}?key=e8408e3fb5254b2fa3638b003fbce07e");
+                    if (!gameDetailsResponse.IsSuccessStatusCode)
+                    {
+                        continue;
+                    }
+                    var gameDetailsContent = await gameDetailsResponse.Content.ReadAsStringAsync();
+                    var game = JsonSerializer.Deserialize<GameAPIModel>(gameDetailsContent);
+                    List<Genre> genres = new List<Genre>();
+                    foreach (var genre in game.Genres)
+                    {
+                        Console.WriteLine(genre.Name);
+                        var locGenre = await _genreRepository.GetGenreByName(genre.Name);
+                        if (locGenre == null)
+                        {
+                            Genre newGenre = new Genre
+                            {
+                                Title = genre.Name
+                            };
+                            await _genreRepository.CreateAsync(newGenre);
+                        }
+                        Genre genre1 = await _genreRepository.GetGenreByName(genre.Name);
+                        Console.WriteLine(genre1.Id);
+                        genres.Add(genre1);
+                    }
+                    List<Platform> platforms = new List<Platform>();
+                    foreach (var platform in game.Platforms)
+                    {
+                        Console.WriteLine(platform.Platform.Name);
+                        var locPlatform = await _platformRepository.GetPlatformByName(platform.Platform.Name);
+                        if (locPlatform == null)
+                        {
+                            Platform newPlatform = new Platform
+                            {
+                                Title = platform.Platform.Name
+                            };
+                            await _platformRepository.CreateAsync(newPlatform);
+                        }
+                        Platform platform1 = await _platformRepository.GetPlatformByName(platform.Platform.Name);
+                        Console.WriteLine(platform1.Id);
+                        platforms.Add(platform1);
+                    }
+                    List<Developer> developers = new List<Developer>();
+                    foreach (var developer in game.Developers)
+                    {
+                        Console.WriteLine(developer.Name);
+                        var locDeveloper = await _developerRepository.GetDeveloperByName(developer.Name);
+                        if (locDeveloper == null)
+                        {
+                            Developer newDeveloper = new Developer
+                            {
+                                Title = developer.Name
+                            };
+                            await _developerRepository.CreateAsync(newDeveloper);
+                        }
+                        Developer developer1 = await _developerRepository.GetDeveloperByName(developer.Name);
+                        Console.WriteLine(developer1.Id);
+                        developers.Add(developer1);
+                    }
+                    List<Publisher> publishers = new List<Publisher>();
+                    foreach (var publisher in game.Publishers)
+                    {
+                        Console.WriteLine(publisher.Name);
+                        var locPublisher = await _publisherRepository.GetPublisherByName(publisher.Name);
+                        if (locPublisher == null)
+                        {
+                            Publisher newPublisher = new Publisher
+                            {
+                                Title = publisher.Name,
+                                Description = publisher.Description
+
+                            };
+                            await _publisherRepository.CreateAsync(newPublisher);
+                        }
+                        Publisher publisher1 = await _publisherRepository.GetPublisherByName(publisher.Name);
+                        Console.WriteLine(publisher1.Id);
+                        publishers.Add(publisher1);
+                    }
+
+                    var locgame = await _gameRepository.ExitGameByName(game.Name);
+                    if (locgame == null)
+                    {
+                        Game gameCreateModel = new Game
+                        {
+                            Title = game.Name,
+                            ReleaseDate = game.Released,
+                            Description = game.Description,
+                            Image = game.Background_image,
+                            Trailer = "https://www.youtube.com/watch?v=6ZfuNTqbHE8",
+                            Genres = genres,
+                            Platforms = platforms,
+                            Developers = developers,
+                            Publisher = publishers[0],
+                        };
+                        await _gameRepository.CreateAsync(gameCreateModel);
+                        locgame = await _gameRepository.ExitGameByName(game.Name);
+                    }
+                    var achivementResponse = await _httpClient.GetAsync($"https://api.rawg.io/api/games/{game.Id}/achievements?key=e8408e3fb5254b2fa3638b003fbce07e");
+                    if (!achivementResponse.IsSuccessStatusCode)
+                    {
+                        continue;
+                    }
+                    var achievementContent = await achivementResponse.Content.ReadAsStringAsync();
+                    var achievements = JsonSerializer.Deserialize<AchievementsAPIResponse>(achievementContent);
+                    var achievementsContent = new List<Achievement>();
+                    foreach (var achievement in achievements.Results)
+                    {
+                        Console.WriteLine(achievement.Name);
+                        var locAchievement = await _achievementRepository.GetAchievementByName(achievement.Name);
+
+                        if (locAchievement == null)
+                        {
+                            Achievement newAchievement = new Achievement
+                            {
+                                Title = achievement.Name,
+                                Description = achievement.Description,
+                                Game = locgame
+                            };
+                            await _achievementRepository.CreateAsync(newAchievement);
+                        }
+                        Achievement achievement1 = await _achievementRepository.GetAchievementByName(achievement.Name);
+                        Console.WriteLine(achievement1.Id);
+                        achievementsContent.Add(achievement1);
+                    }
+                  
+                }
+                return new DefaultMessageResponse { Message = "Game added successfully" };
+            }
+            return new DefaultMessageResponse { Message = "Error" };
+        }
 
     }
+    
 }

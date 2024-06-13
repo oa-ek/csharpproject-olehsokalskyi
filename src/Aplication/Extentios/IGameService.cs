@@ -11,5 +11,6 @@ namespace Application.Extentios
     public interface IGameService : IService<GameModel, GameCreateModel, GameEditModel>
     {
         Task<DefaultMessageResponse> BuyGame(GameBuyModel model);
+        Task<DefaultMessageResponse> GetGameFromAPI();
     }
 }
