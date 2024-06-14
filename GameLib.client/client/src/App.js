@@ -12,6 +12,9 @@ import { AuthProvider } from './components/Authorize';
 import {ProfilePage} from "./page/ProfilePage";
 import {GamePage} from "./page/GamePage";
 import {GameDetail} from "./page/GameDetail";
+import {RatingPage} from "./page/RatingPage";
+import {AchievementUserPage} from "./page/AchievementUserPage";
+import {UserPage} from "./page/UserPage";
 
 function App() {
     return (
@@ -28,6 +31,9 @@ function App() {
                     <Route path='/login' element={<LoginPage/>}/>
                     <Route path='/game' element={<GamePage/>}/>
                     <Route path='game/:id' element={<GameDetail/>}/>
+                    <Route path='/ratings' element={<RatingPage/>}/>
+                    <Route path='/achievementUser' element={<AchievementUserPage/>}/>
+                    <Route path='/users' element={<UserPage/>}/>
                 </Routes>
             </AuthProvider>
 

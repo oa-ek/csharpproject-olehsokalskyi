@@ -15,15 +15,17 @@ namespace Application.Service
     {
         private readonly IAchievementUserRepository _achievementUserRepository;
         private readonly IAchievementRepository _achievementRepository;
+        private readonly IGameRepository _gameRepository;
         private readonly UserManagerService _userManagerService;
         private readonly IMapper _mapper;
         public AchievementUserService(IAchievementUserRepository achievementUserRepository, IMapper mapper,
-            UserManagerService userManagerService, IAchievementRepository achievementRepository)
+            UserManagerService userManagerService, IAchievementRepository achievementRepository, IGameRepository gameRepository)
         {
             _achievementUserRepository = achievementUserRepository;
             _mapper = mapper;
             _userManagerService = userManagerService;
             _achievementRepository = achievementRepository;
+            _gameRepository = gameRepository;
         }
 
         public async Task<DefaultMessageResponse> AddAsync(AchievementUserCreateModel model)
@@ -75,6 +77,17 @@ namespace Application.Service
             achievementUser.AchievementId = achievement.Id;
             await _achievementUserRepository.UpdateAsync(achievementUser);
             return new DefaultMessageResponse { Message = "AchievementUser updated successfully" };
+        }
+
+        public async Task<IEnumerable<AchievementUserModel>> GetByUserAndGame(Guid gameId, string email)
+        {
+            var user = await _userManagerService.GetUserByEmail(email);
+            if (user is null)
+                throw new ObjectNotFound("User not found");
+            if(!await _gameRepository.ExistItem(gameId))
+                                throw new ObjectNotFound("Game not found");
+            var achievementUsers = await _achievementUserRepository.GetByUserAndGame(gameId, user.Id);
+            return _mapper.Map<IEnumerable<AchievementUserModel>>(achievementUsers);
         }
     }
 }

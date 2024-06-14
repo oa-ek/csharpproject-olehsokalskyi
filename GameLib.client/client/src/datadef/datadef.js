@@ -44,6 +44,7 @@ export const fields = {
         {name: 'id', validator: 'required: true'},
         {name: 'name', validator: 'required: true'},
     ],
+
 };
 
 export const displayFields = {
@@ -101,4 +102,22 @@ export const displayFields = {
         {name: 'id', label: 'ID'},
         {name: 'name', label: 'Name'},
     ],
+    rating : [
+        {name: 'id', label: 'ID'},
+        {name: 'ratingValue', label: 'Rating', isStar: true},
+        {name: 'comment', label: 'Comment'},
+        {name: 'date', label: 'Date'},
+        {name: 'game', label: 'Game', isObject: true, objFields: [ 'title']},
+        {name: 'user', label: 'User', isObject: true, objFields: ['email']}
+    ],
+    achievementUser: [
+        {name: 'id', label: 'ID'},
+        {name: 'achievement', isObject: true, objFields: ['title']},
+        {name: 'user', isObject: true, objFields: ['userName']}
+    ],
+    user:[
+        {name: 'id', label: 'ID'},
+        {name: 'email', label: 'Email'},
+        {name: 'role', label: 'Role', isObject: true, objFields: ['name']},
+    ]
 };

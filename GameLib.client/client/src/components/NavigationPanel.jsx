@@ -30,6 +30,9 @@ function CollapsibleExample() {
                         <Nav.Link as={Link} to="/developers">Developers</Nav.Link>
                         <Nav.Link as={Link} to='/achievements'>Achievements</Nav.Link>
                         <Nav.Link as={Link} to='/game'>Game</Nav.Link>
+                        <Nav.Link as={Link} to='/ratings'>Ratings</Nav.Link>
+                        <Nav.Link as={Link} to='achievementUser'>AchievementUser</Nav.Link>
+                        <Nav.Link as={Link} to='/users'>Users</Nav.Link>
                     </Nav>
                     <Nav>
                         {authorized ? (

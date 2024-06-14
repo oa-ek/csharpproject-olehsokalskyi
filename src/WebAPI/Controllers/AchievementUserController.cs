@@ -59,6 +59,14 @@ namespace WebAPI.Controllers
         {
             var result = await _achievementUserService.GetByIdAsync(id);
             return Ok(result);
-        } 
+        }
+        [HttpGet("getbygameanduser/{gameId}")]
+        [Authorize]
+        public async Task<IActionResult> GetByGameAndUser(Guid gameId)
+        {
+            var email = _httpContextAccessor.HttpContext.Items["email"].ToString();
+            var result = await _achievementUserService.GetByUserAndGame(gameId, email);
+            return Ok(result);
+        }
     }
 }

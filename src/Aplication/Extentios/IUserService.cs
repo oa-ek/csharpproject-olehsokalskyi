@@ -20,6 +20,7 @@ namespace Application.Extentios
         public Task<DefaultMessageResponse> ChangeRole(UserRoleChangeDto userRoleChangeDto);
         public Task<UserModel> GetCurrent(string email);
         public Task<DefaultMessageResponse> UpdateCurrentcy(UserUpdateDto entity);
+        public Task<IEnumerable<RoleModel>> GetAllRole();
 
         //public Task<DefaultMessageResponse> AddReles(Guid userId, List<Guid> rolesId);
         //public Task<DefaultMessageResponse> RemoveRoles(Guid userId, List<Guid> rolesId);

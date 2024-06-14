@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import Select from 'react-select';
 import Form from 'react-bootstrap/Form';
 import axios from "axios";
+import EventBus from "../hook/eventBus";
 
 export const FormComponent = ({ url, type, fields, show, handleClose, data }) => {
     const { register, handleSubmit, formState: { errors }, setValue, getValues } = useForm();
@@ -13,7 +14,7 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data }) =>
     const [selectData, setSelectData] = useState({});
     const [selectedValues, setSelectedValues] = useState({});
 
-    const OnSubmit = data => {
+    const OnSubmit = async data => {
         data.price = parseFloat(data.price);
 
         fields.forEach(field => {
@@ -21,8 +22,16 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data }) =>
                 data[field.name] = [];
             }
         });
+
         console.log(data);
-        type === 'post' ? createData(url, data) : updateData(url, data.id, data);
+        if (type === 'post') {
+            await createData(url, data);
+            EventBus.emit('dataChanged', 'create');
+        } else {
+            await updateData(url, data.id, data);
+            EventBus.emit('dataChanged', 'update');
+        }
+        handleClose();
     };
 
     useEffect(() => {

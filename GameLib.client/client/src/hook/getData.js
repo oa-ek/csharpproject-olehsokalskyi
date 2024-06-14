@@ -65,7 +65,7 @@ const useApi = () => {
         try {
             const response = await api.delete(`${baseURL}/${entity}/delete/${id}`);
             setError(null);
-            EventBus.emit('dataChanged'); // Відправляємо подію
+            EventBus.emit('dataChanged','delete'); // Відправляємо подію
             return response.data.message;
         } catch (err) {
             setError(err);

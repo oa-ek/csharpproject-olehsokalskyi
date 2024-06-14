@@ -13,5 +13,6 @@ namespace Application.Extentios
     {
         Task<bool> AnyAsync(Expression<Func<AchievementUser, bool>> predicate);
         Task<List<AchievementUser>> GetAchievementsUserByGameId(Guid gameId);
+        Task<List<AchievementUser>> GetByUserAndGame(Guid gameId, Guid userId);
     }
 }

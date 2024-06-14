@@ -1,4 +1,5 @@
-﻿using Application.Extentios;
+﻿using Application.Commons.Models;
+using Application.Extentios;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistance;
@@ -22,6 +23,12 @@ namespace Persistance.Repositories
         public Task<List<AchievementUser>> GetAchievementsUserByGameId(Guid gameId)
         {
             return _ctx.AchievementUsers.Where(x => x.Achievement.GameId == gameId).ToListAsync();
+        }
+        public async Task<List<AchievementUser>> GetByUserAndGame(Guid gameId, Guid userId)
+        {
+            return await _ctx.AchievementUsers
+                .Where(x => x.Achievement.GameId == gameId && x.UserId == userId)
+                .ToListAsync();
         }
     }
 

@@ -35,6 +35,10 @@ namespace WebAPI.Controllers
                 var result = await _ratingService.AddAsync(ratingCreateModel);
                 return Ok(result);
             }
+            catch(ObjectAlreadyExistException e)
+            {
+                return BadRequest(e.Message);
+            }
             catch (ErrorMassage e)
             {
                 return BadRequest(e.Message);

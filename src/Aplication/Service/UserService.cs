@@ -54,6 +54,10 @@ namespace Application.Service
             }
            
         }
+        public async Task<IEnumerable<RoleModel>> GetAllRole()
+        {
+            return _mapper.Map<IEnumerable<RoleModel>>(await _userManagerService.GetAllRoles());
+        }
 
         public async Task<DefaultMessageResponse> DeleteAsync(Guid id)
         {

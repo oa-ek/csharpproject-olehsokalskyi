@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import useApi from "../hook/getData";
+import EventBus from "../hook/eventBus";
 
 const DeleteModal = ({ id, show, handleClose, url  }) => {
     const { deleteData } = useApi();
     const onHandleDelete = async () => {
-        const message = await deleteData(url,id);
+        await deleteData(url, id);
+        EventBus.emit('dataChanged', 'delete');
         handleClose();
     }
     return (

@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
             
         }
         [HttpPost("changeRole")]
-        [RoleAuth(Role = "Admin")]
+        //[RoleAuth(Role = "Admin")]
         public async Task<IActionResult> ChangeRole(UserRoleChangeDto model )
         {
             
@@ -169,6 +169,12 @@ namespace WebAPI.Controllers
             //    return BadRequest("Something went wrong");
             //}
             var result = await _userService.UpdateAsync(userUpdateDto);
+            return Ok(result);
+        }
+        [HttpGet("role/list")]
+        public async Task<IActionResult> GetRoleList()
+        {
+            var result = await _userService.GetAllRole();
             return Ok(result);
         }
 

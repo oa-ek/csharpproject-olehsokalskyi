@@ -48,6 +48,16 @@ export const userActions = () => {
         const response =  await api.put(`https://localhost:7226/api/user/update/${id}`,data)
         return response.data
     }
+    const changePassword = async (data) => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/user/changepassword`, data);
+            return response.data;
+        } catch (error) {
+            console.error('Error changing password:', error);
+            return null;
+        }
+    };
 
-    return { login, logout, register, isAuthorize, editUser, deleteUser, getCurrentUser,updateCurrentUser };
+
+    return { login, logout, register, isAuthorize, editUser, deleteUser, getCurrentUser,updateCurrentUser,changePassword };
 }
