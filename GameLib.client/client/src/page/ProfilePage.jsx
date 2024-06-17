@@ -1,6 +1,7 @@
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { userActions } from "../hook/userActions";
-import { useEffect, useState } from 'react';
+import { userActions } from '../hook/userActions';
+import { Link } from 'react-router-dom';
 
 export const ProfilePage = () => {
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm();
@@ -36,10 +37,8 @@ export const ProfilePage = () => {
             console.log("New passwords do not match!");
             return;
         }
-        console.log(data)
-        data.id= userId
+        data.id = userId;
         const result = await changePassword(data);
-
         console.log(result);
     };
 
@@ -59,44 +58,33 @@ export const ProfilePage = () => {
                 <form onSubmit={handleSubmit(onSubmitProfile)}>
                     <div className="form-floating">
                         <div className="form-floating mb-3">
-                            <input type="text" className="form-control" id="floatingInput" disabled
-                                   placeholder="" required {...register('id')} />
+                            <input type="text" className="form-control" id="floatingInput" disabled placeholder="" required {...register('id')} />
                             <label htmlFor="floatingInput">Id</label>
                         </div>
                         <div className="row form-floating mb-3">
                             <div className="form-floating col-6">
-                                <input type="text" className="form-control" id="InputFirstName" placeholder="" required
-                                       {...register('firstName')} />
+                                <input type="text" className="form-control" id="InputFirstName" placeholder="" required {...register('firstName')} />
                                 <label htmlFor="InputFirstName">First name</label>
                             </div>
                             <div className="form-floating col-6">
-                                <input type="text" className="form-control" id="InputLastName" placeholder="" required
-                                       {...register('lastName')} />
+                                <input type="text" className="form-control" id="InputLastName" placeholder="" required {...register('lastName')} />
                                 <label htmlFor="InputLastName">Last name</label>
                             </div>
                         </div>
                         <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="floatingInput"
-                                   placeholder="name@example.com" required {...register('email')} />
+                            <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" required {...register('email')} />
                             <label htmlFor="floatingInput">Email address</label>
                         </div>
                         <div className="form-floating mb-3">
-                            <input type="text" className="form-control" id="floatingInput"
-                                   placeholder="user123" required {...register('userName')} />
+                            <input type="text" className="form-control" id="floatingInput" placeholder="user123" required {...register('userName')} />
                             <label htmlFor="floatingInput">Username</label>
                         </div>
                         <div className="form-floating mb-3">
                             <div className="row form-floating mb-3 d-flex justify-content-around">
                                 <div className="form-floating d-flex justify-content-between mb-3">
-                                    <button className="btn btn-danger" type="button" id="button-delete"
-                                            disabled={isDataChanged}>Delete account
-                                    </button>
-
-                                    <button className="btn btn-primary" type="submit" id="button-change"
-                                            disabled={!isDataChanged}>Change data
-                                    </button>
+                                    <button className="btn btn-danger" type="button" id="button-delete" disabled={isDataChanged}>Delete account</button>
+                                    <button className="btn btn-primary" type="submit" id="button-change" disabled={!isDataChanged}>Change data</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -110,19 +98,16 @@ export const ProfilePage = () => {
                 <form onSubmit={handleSubmitPassword(onSubmitPassword)}>
                     <div className="form-floating">
                         <div className="form-floating mb-3">
-                            <input type="password" className="form-control" id="oldPassword"
-                                   placeholder="" required {...registerPassword('oldPassword')} />
+                            <input type="password" className="form-control" id="oldPassword" placeholder="" required {...registerPassword('oldPassword')} />
                             <label htmlFor="oldPassword">Old password</label>
                         </div>
                         <div className="row form-floating mb-3">
                             <div className="form-floating col-6">
-                                <input type="password" className="form-control" id="newPassword" placeholder=""
-                                       required {...registerPassword('newPassword')} />
+                                <input type="password" className="form-control" id="newPassword" placeholder="" required {...registerPassword('newPassword')} />
                                 <label htmlFor="newPassword">New password</label>
                             </div>
                             <div className="form-floating col-6">
-                                <input type="password" className="form-control" id="confirmNewPassword" placeholder=""
-                                       required {...registerPassword('confirmNewPassword')} />
+                                <input type="password" className="form-control" id="confirmNewPassword" placeholder="" required {...registerPassword('confirmNewPassword')} />
                                 <label htmlFor="confirmNewPassword">Repeat new password</label>
                             </div>
                         </div>
@@ -135,6 +120,22 @@ export const ProfilePage = () => {
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <div className="col-12 col-md-4 shadow-sm mx-5">
+                {user && (
+                    <div className="form-floating mt-2">
+                        <h2>Games</h2>
+                        <ul className="list-group">
+                            {user.games.map(game => (
+                                <li key={game.id} className="list-group-item d-flex justify-content-between align-items-center">
+                                    {game.title}
+                                    <Link to={`/game-details/${game.id}`} className="btn btn-primary btn-sm">Details</Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );

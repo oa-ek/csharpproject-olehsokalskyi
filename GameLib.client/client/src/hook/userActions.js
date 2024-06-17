@@ -1,5 +1,7 @@
 import axios from "axios";
 import api from './untils/axiousAuthConfig'
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+
 export const userActions = () => {
     const login = async (data) => {
 
@@ -57,7 +59,17 @@ export const userActions = () => {
             return null;
         }
     };
+    const isAdmin = () => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            const decodedToken = jwt_decode(token);
+            return decodedToken.role === 'admin';
+        }
+
+        return false;
+    }
 
 
-    return { login, logout, register, isAuthorize, editUser, deleteUser, getCurrentUser,updateCurrentUser,changePassword };
+    return { login, logout, register, isAuthorize, editUser, deleteUser, getCurrentUser,updateCurrentUser,changePassword,isAdmin };
 }

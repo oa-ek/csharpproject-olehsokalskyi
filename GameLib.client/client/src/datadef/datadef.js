@@ -20,11 +20,12 @@ export const fields = {
         {name: 'price', validator: 'required: true', isNumber: true},
         {name: 'trailer', validator: 'required: true'},
         {name: 'releaseDate', validator: 'required: true'},
-        {name: 'genresList' , validator: 'required: true', isMultySelect: true, entityurl: 'genre', visibleFields: ['id','title']},
-        {name: 'platformsList' , validator: '', isMultySelect: true, entityurl: 'platform', visibleFields: ['id','title']},
-        {name: 'publisherId', validator: 'required: true', isSelect: true, entityurl: 'publisher', visibleFields: ['id','title']},
-        {name: 'developersList', validator:  '', isMultySelect: true, entityurl: 'developer', visibleFields: ['id','title']},
-        {name: 'languagesList', validator:  '', isMultySelect: true, entityurl: 'language', visibleFields: ['id','title']}
+        {name: 'genresList' , validator: 'required: true', isMultySelect: true, entityurl: 'genre', visibleFields: ['id','title'], otherName:
+            'genres'},
+        {name: 'platformsList' , validator: '', isMultySelect: true, entityurl: 'platform', visibleFields: ['id','title'], otherName: 'platforms'},
+        {name: 'publisherId', validator: 'required: true', isSelect: true, entityurl: 'publisher', visibleFields: ['id','title'], otherName: 'publisher'},
+        {name: 'developersList', validator:  '', isMultySelect: true, entityurl: 'developer', visibleFields: ['id','title'], otherName: 'developers'},
+        {name: 'languagesList', validator:  '', isMultySelect: true, entityurl: 'language', visibleFields: ['id','title'], otherName: 'languages'},
     ],
     achievement: [
         {name: 'id', validator: 'required: true'},

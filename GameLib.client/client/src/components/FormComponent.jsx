@@ -47,15 +47,19 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data }) =>
     useEffect(() => {
         if (data && fields) {
             fields.forEach(field => {
+
                 if (field.isSelect || field.isMultySelect) {
-                    if (data[field.name]) {
-                        const selectedValue = field.isMultySelect ? data[field.name].map(item => ({
+
+                    if (data[field.otherName] || data[field.name]) {
+                        console.log(data[field.name])
+                        const selectedValue = field.isMultySelect ? data[field.otherName].map(item => ({
                             value: item.id,
-                            label: field.visibleFields.map(f => item[f]).join(' ')
+                            label: item.title
                         })) : {
-                            value: data[field.name].id,
-                            label: field.visibleFields.map(f => data[field.name][f]).join(' ')
+                            value: field.otherName ? data[field.otherName].id : data[field.name],
+                            label: field.otherName ? data[field.otherName].title : data[field.name]
                         };
+
                         setSelectedValues(prevValues => ({ ...prevValues, [field.name]: selectedValue }));
                         setValue(field.name, selectedValue);
                     }
@@ -65,6 +69,7 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data }) =>
             });
         }
     }, [data, fields, setValue]);
+
 
     const handleImageUpload = event => {
         const file = event.target.files[0];
@@ -119,6 +124,7 @@ export const FormComponent = ({ url, type, fields, show, handleClose, data }) =>
                                 ) : null}
                             </Form.Group>
                         ))}
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

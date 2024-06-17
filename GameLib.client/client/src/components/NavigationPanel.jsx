@@ -11,8 +11,7 @@ import { AuthContext } from './Authorize';
 
 function CollapsibleExample() {
     const { authorized, setAuthorized } = useContext(AuthContext);
-    const {logout} = userActions()
-    // Rest of your code...
+    const {logout, isAdmin} = userActions()
 
     const OnLogout = ()=>{
         logout();
@@ -25,14 +24,17 @@ function CollapsibleExample() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">Genre</Nav.Link>
-                        <Nav.Link as={Link} to="/platform">Platform</Nav.Link>
-                        <Nav.Link as={Link} to="/developers">Developers</Nav.Link>
-                        <Nav.Link as={Link} to='/achievements'>Achievements</Nav.Link>
-                        <Nav.Link as={Link} to='/game'>Game</Nav.Link>
-                        <Nav.Link as={Link} to='/ratings'>Ratings</Nav.Link>
-                        <Nav.Link as={Link} to='achievementUser'>AchievementUser</Nav.Link>
-                        <Nav.Link as={Link} to='/users'>Users</Nav.Link>
+                        {isAdmin && authorized &&
+                            <>
+                                <Nav.Link as={Link} to="/genres">Genre</Nav.Link>
+                                <Nav.Link as={Link} to="/platform">Platform</Nav.Link>
+                                <Nav.Link as={Link} to="/developers">Developers</Nav.Link>
+                                <Nav.Link as={Link} to='/achievements'>Achievements</Nav.Link>
+                                <Nav.Link as={Link} to='/ratings'>Ratings</Nav.Link>
+                                <Nav.Link as={Link} to='achievementUser'>AchievementUser</Nav.Link>
+                                <Nav.Link as={Link} to='/users'>Users</Nav.Link>
+                            </>}
+                        <Nav.Link as={Link} to='/'>Game</Nav.Link>
                     </Nav>
                     <Nav>
                         {authorized ? (
@@ -41,7 +43,11 @@ function CollapsibleExample() {
                                 <button className='nav-link'onClick={OnLogout}>Logout</button>
                             </>
                         ) : (
-                            <Nav.Link as={Link} to='login'>Login</Nav.Link>
+                            <>
+                                <Nav.Link as={Link} to='login'>Login</Nav.Link>
+                                <Nav.Link as={Link} to='register'>Register</Nav.Link>
+                            </>
+
                         )}
                     </Nav>
                 </Navbar.Collapse>

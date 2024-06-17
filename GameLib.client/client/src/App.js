@@ -15,6 +15,7 @@ import {GameDetail} from "./page/GameDetail";
 import {RatingPage} from "./page/RatingPage";
 import {AchievementUserPage} from "./page/AchievementUserPage";
 import {UserPage} from "./page/UserPage";
+import {RegisterPage} from "./page/RegisterPage";
 
 function App() {
     return (
@@ -24,16 +25,17 @@ function App() {
                 <Routes>
                     <Route path='/login' element={<LoginPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/" element={<GenrePage/>} />
+                    <Route path="/genres" element={<GenrePage/>} />
                     <Route path="/platform" element={<PlatformPage/>} />
                     <Route path="/developers" element={<DeveloperPage/>} />
                     <Route path='/achievements' element={<AchievementPage/>}/>
                     <Route path='/login' element={<LoginPage/>}/>
-                    <Route path='/game' element={<GamePage/>}/>
+                    <Route path='/' element={<GamePage/>}/>
                     <Route path='game/:id' element={<GameDetail/>}/>
                     <Route path='/ratings' element={<RatingPage/>}/>
                     <Route path='/achievementUser' element={<AchievementUserPage/>}/>
                     <Route path='/users' element={<UserPage/>}/>
+                    <Route path='register' element={<RegisterPage/>}/>
                 </Routes>
             </AuthProvider>
 
